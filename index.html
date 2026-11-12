@@ -10,10 +10,9 @@
   <meta name="description" content="A personal portfolio exploring spatial planning, geospatial analysis, 3D spatial data and computational methods.">
 
   <!-- Editorial typography -->
-  
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
 
   <!-- Interactive map -->
   <link
@@ -22,28 +21,25 @@
   >
 
   <style>
-    :
-:root {
-  --bg: #0b100c;
-  --bg-soft: #101710;
-  --bg-card: #141d15;
-  --bg-hover: #1a251b;
+    :root {
+      --bg: #101812;
+      --bg-soft: #151f18;
+      --bg-card: #19251c;
+      --bg-hover: #202e23;
 
-  --text: #eeeee6;
-  --muted: #a4ad9f;
-  --subtle: #788475;
+      --text: #f0eee4;
+      --muted: #b3b8a9;
+      --subtle: #849182;
 
-  --green: #536b4d;
-  --green-light: #819579;
-  --green-dark: #293c2b;
-  --line: #29352a;
+      --green: #91a88b;
+      --green-light: #b4c8a9;
+      --green-dark: #354d38;
+      --line: #344236;
 
-  --serif: "Manrope", sans-serif;
-  --sans: "DM Sans", sans-serif;
+      --serif: "Playfair Display", Georgia, serif;
+      --sans: "DM Sans", Arial, sans-serif;
 
-  --width: 1160px;
-}
-
+      --width: 1160px;
     }
 
     * {
@@ -985,148 +981,6 @@
         transition-duration: 0.01ms !important;
       }
     }
-    
-/* BOLDER, STRAIGHTER TYPOGRAPHY */
-
-h1, h2, h3, h4,
-.brand,
-.about-copy h3,
-.experience-content h3,
-.project-content h3,
-.contact-layout h2,
-.photo-placeholder strong,
-.map-intro h3,
-.project-art .art-label,
-.exchange-card h4 {
-  font-family: "Manrope", sans-serif;
-  font-style: normal;
-  font-weight: 700;
-  letter-spacing: -1.4px;
-}
-
-.hero h1 {
-  font-size: clamp(52px, 7.5vw, 88px);
-  font-weight: 800;
-  letter-spacing: -4px;
-  line-height: 1.04;
-}
-
-.hero h1 em,
-.about-copy h3 em,
-.contact-layout h2 em,
-.project-art .art-label em {
-  color: var(--green-light);
-  font-style: normal;
-  font-weight: 800;
-}
-
-.section-heading h2 {
-  font-size: clamp(38px, 5vw, 56px);
-  font-weight: 800;
-  letter-spacing: -2.5px;
-}
-
-.about-copy h3 {
-  font-size: clamp(30px, 4vw, 43px);
-  line-height: 1.3;
-}
-
-.experience-content h3,
-.project-content h3 {
-  font-size: 27px;
-  font-weight: 700;
-  letter-spacing: -1px;
-}
-
-.contact-layout h2 {
-  font-size: clamp(48px, 7vw, 76px);
-  font-weight: 800;
-  letter-spacing: -3px;
-}
-
-.brand {
-  font-size: 21px;
-  font-weight: 800;
-  letter-spacing: -1px;
-}
-
-.brand span {
-  color: var(--green-light);
-  font-style: normal;
-}
-
-.nav-links a {
-  font-weight: 600;
-  letter-spacing: 0;
-}
-
-.project-art .art-label {
-  font-size: clamp(25px, 3vw, 36px);
-  font-weight: 800;
-  line-height: 1.2;
-}
-
-.photo-placeholder strong {
-  font-size: 25px;
-  font-weight: 800;
-}
-
-.eyebrow {
-  color: var(--green-light);
-  font-weight: 700;
-  letter-spacing: 2px;
-}
-
-/* DEEPER FOREST-GREEN DETAILS */
-
-.hero::before {
-  background: radial-gradient(
-    circle,
-    rgba(49, 75, 47, 0.15),
-    transparent 70%
-  );
-}
-
-.project-card:hover {
-  border-color: #52684c;
-}
-
-.text-link,
-.project-footer a {
-  color: #9aac91;
-}
-
-.text-link {
-  border-color: #52684c;
-}
-
-.text-link:hover {
-  color: var(--text);
-  border-color: var(--text);
-}
-
-.study-marker {
-  background: #91a487;
-  border-color: #1a2a1b;
-  box-shadow: 0 0 0 4px rgba(129, 149, 121, 0.15);
-}
-
-.leaflet-tooltip.study-tooltip {
-  border-color: #52684c;
-}
-
-/* Keep the design clean on smaller screens */
-
-@media (max-width: 600px) {
-  .hero h1 {
-    letter-spacing: -2.5px;
-  }
-
-  .contact-layout h2 {
-    letter-spacing: -2px;
-  }
-}
-
   </style>
 </head>
 
