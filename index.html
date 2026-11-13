@@ -3,56 +3,33 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0f1821">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Your Name — Spatial Thinking</title>
-  <meta name="description" content="A personal portfolio exploring spatial planning, geospatial analysis, 3D reconstruction and digital representations of cities.">
+  <title>Your Name — Cities, Space & Data</title>
+  <meta name="description" content="A personal academic portfolio exploring spatial planning, geospatial analysis, Earth observation and 3D spatial data.">
 
-  <!-- Main font: geometric, bold, clean -->
+  <!-- Free, open-source fonts: Archivo Black + Open Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Open+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Map -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 
   <style>
-    @font-face {
-      font-family: "CY Grotesk Wide";
-      src: url("assets/CY-Grotesk-Wide.woff2") format("woff2");
-      font-weight: 400 800;
-      font-style: normal;
-      font-display: swap;
+    :root {
+      --background: #0f1821;
+      --background-soft: #15232b;
+      --surface: #1b2b32;
+      --text: #edf0eb;
+      --muted: #a3b0ac;
+      --green: #87c595;
+      --green-dark: #469758;
+      --line: rgba(226, 239, 229, 0.15);
+      --heading: "Archivo Black", sans-serif;
+      --body: "Open Sans", sans-serif;
+      --page-width: 1320px;
     }
-  </style>
-
-  <!-- Interactive map -->
-  <link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-  >
-
-  <style>
-    
-:root {
-  --font-heading: 'Space Grotesk', sans-serif;
-  --font-body: 'Open Sans', sans-serif;
-}
-
-body {
-  font-family: var(--font-body);
-}
-
-h1, h2, h3, h4,
-nav,
-.hero-title,
-.section-title {
-  font-family: var(--font-heading);
-}
-
 
     * {
       box-sizing: border-box;
@@ -62,22 +39,35 @@ nav,
 
     html {
       scroll-behavior: smooth;
-      scroll-padding-top: 100px;
+      scroll-padding-top: 95px;
     }
 
     body {
-      background: var(--bg);
-      color: var(--white);
+      background: var(--background);
+      color: var(--text);
       font-family: var(--body);
-      font-size: 14px;
+      font-size: 15px;
       line-height: 1.8;
-      -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
     }
 
-    ::selection {
-      background: var(--green-dark);
-      color: white;
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -3;
+      pointer-events: none;
+      background:
+        radial-gradient(
+          ellipse at 10% 20%,
+          rgba(70, 151, 88, 0.10),
+          transparent 38%
+        ),
+        radial-gradient(
+          ellipse at 90% 65%,
+          rgba(72, 126, 143, 0.09),
+          transparent 35%
+        );
     }
 
     a {
@@ -87,16 +77,30 @@ nav,
 
     img {
       display: block;
-      width: 100%;
+      max-width: 100%;
     }
 
-    button {
+    button,
+    input {
       font: inherit;
     }
 
+    ::selection {
+      background: var(--green);
+      color: var(--background);
+    }
+
     .container {
-      width: min(var(--width), calc(100% - 80px));
-      margin: 0 auto;
+      width: min(var(--page-width), calc(100% - 64px));
+      margin-inline: auto;
+    }
+
+    .display {
+      font-family: var(--heading);
+      font-weight: 400;
+      letter-spacing: -0.065em;
+      line-height: 0.98;
+      text-transform: uppercase;
     }
 
     .eyebrow {
@@ -104,160 +108,110 @@ nav,
       align-items: center;
       gap: 12px;
       color: var(--green);
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 2px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.17em;
+      line-height: 1.5;
       text-transform: uppercase;
     }
 
     .eyebrow::before {
       content: "";
-      display: block;
-      width: 25px;
+      width: 24px;
       height: 1px;
+      flex: 0 0 24px;
       background: var(--green);
     }
 
     .section {
-      padding: 120px 0;
+      position: relative;
+      padding: 125px 0;
       border-top: 1px solid var(--line);
-      scroll-margin-top: 78px;
     }
 
-    .section-top {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: 32px;
-      margin-bottom: 55px;
+    .section-heading {
+      max-width: 850px;
+      margin-bottom: 48px;
     }
 
-    .section-title {
-      font-family: var(--display);
-      font-size: clamp(38px, 5.5vw, 66px);
-      font-weight: 700;
-      line-height: 1.08;
-      letter-spacing: -2.8px;
+    .section-heading h2 {
+      margin-top: 22px;
+      font-size: clamp(40px, 6vw, 76px);
     }
 
-    .section-title .accent {
+    .section-heading p {
+      max-width: 570px;
+      margin-top: 22px;
+      color: var(--muted);
+    }
+
+    .green {
       color: var(--green);
     }
 
-    .section-intro {
-      max-width: 380px;
-      color: var(--grey);
-      font-size: 12px;
-      line-height: 2;
-    }
-
-    .small-label {
-      color: var(--grey-dim);
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-    }
-
-    .arrow-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      padding: 0 0 7px;
-      border-bottom: 1px solid var(--green-2);
-      color: var(--green);
-      font-size: 11px;
-      font-weight: 600;
-      transition: gap 0.25s, color 0.25s;
-    }
-
-    .arrow-link:hover {
-      gap: 19px;
-      color: var(--white);
-    }
-
-    .arrow-link span {
-      font-size: 17px;
-    }
-
-    /* =========================================
-       NAVIGATION
-    ========================================= */
+    /* Navigation */
 
     .topbar {
       position: sticky;
       top: 0;
       z-index: 1000;
-      background: rgba(15, 24, 33, 0.94);
-      backdrop-filter: blur(18px);
       border-bottom: 1px solid var(--line);
+      background: rgba(15, 24, 33, 0.92);
+      backdrop-filter: blur(18px);
     }
 
-    .nav-inner {
-      min-height: 75px;
+    .nav {
+      min-height: 76px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      gap: 30px;
+      justify-content: space-between;
+      gap: 28px;
     }
 
     .brand {
-      flex-shrink: 0;
-      font-family: var(--display);
-      font-size: 17px;
-      font-weight: 800;
-      letter-spacing: -0.7px;
+      font-family: var(--heading);
+      font-size: 16px;
+      line-height: 1.1;
+      letter-spacing: -0.04em;
+      text-transform: uppercase;
+      white-space: nowrap;
     }
 
-    .brand .dot {
+    .brand span {
       color: var(--green);
     }
 
     .nav-links {
       display: flex;
       align-items: center;
-      gap: clamp(20px, 3vw, 42px);
+      gap: clamp(18px, 3vw, 42px);
     }
 
     .nav-links a {
-      position: relative;
-      padding: 28px 0;
-      color: var(--grey);
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.3px;
-      transition: color 0.2s;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      transition: color 180ms ease;
     }
 
-    .nav-links a::after {
-      content: "";
-      position: absolute;
-      bottom: 19px;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background: var(--green);
-      transition: width 0.25s;
+    .nav-links a:hover {
+      color: var(--green);
     }
 
-    .nav-links a:hover,
-    .nav-links a.active {
-      color: var(--white);
+    .nav-contact {
+      padding: 9px 15px;
+      border: 1px solid var(--green-dark);
+      color: var(--green) !important;
     }
 
-    .nav-links a:hover::after,
-    .nav-links a.active::after {
-      width: 100%;
-    }
-
-    /* =========================================
-       HERO — FIRST SCREEN
-    ========================================= */
+    /* Front page */
 
     .hero {
+      min-height: min(850px, calc(100svh - 76px));
+      min-height: min(850px, calc(100vh - 76px));
       position: relative;
-      padding: 92px 0 76px;
-      min-height: 690px;
+      display: flex;
+      align-items: center;
       overflow: hidden;
       isolation: isolate;
     }
@@ -265,615 +219,416 @@ nav,
     .hero::before {
       content: "";
       position: absolute;
+      inset: 0;
+      z-index: -2;
+      background-image: url("https://images.unsplash.com/photo-1511818966892-d7d671e672a2?auto=format&fit=crop&w=2200&q=85");
+      background-position: center;
+      background-size: cover;
+      opacity: 0.20;
+      filter: saturate(0.45);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
       z-index: -1;
-      width: 720px;
-      height: 720px;
-      top: -320px;
-      left: -280px;
-      border-radius: 50%;
-      background: radial-gradient(
-        circle,
-        rgba(70, 151, 88, 0.11),
-        transparent 70%
-      );
+      background:
+        linear-gradient(
+          90deg,
+          #0f1821 0%,
+          rgba(15, 24, 33, 0.95) 34%,
+          rgba(15, 24, 33, 0.62) 72%,
+          rgba(15, 24, 33, 0.45) 100%
+        ),
+        linear-gradient(
+          0deg,
+          #0f1821 0%,
+          transparent 35%,
+          rgba(15, 24, 33, 0.15) 100%
+        );
     }
 
-    .hero-layout {
-      display: grid;
-      grid-template-columns: 1.05fr 0.95fr;
+    .hero-content {
+      width: 100%;
+      padding-top: 90px;
+      padding-bottom: 80px;
+    }
+
+    .hero-topline {
+      display: flex;
       align-items: center;
-      gap: 50px;
+      gap: 12px;
+      margin-bottom: 36px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
     }
 
-    .hero-copy {
-      position: relative;
-      z-index: 2;
-      padding-bottom: 15px;
-    }
-
-    .hero-copy .eyebrow {
-      margin-bottom: 34px;
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      flex: 0 0 8px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 15px rgba(135, 197, 149, 0.5);
     }
 
     .hero h1 {
-      font-family: var(--display);
-      font-size: clamp(49px, 6.5vw, 83px);
-      font-weight: 800;
-      line-height: 1.07;
-      letter-spacing: -3.8px;
+      max-width: 1050px;
+      font-size: clamp(56px, 9.1vw, 126px);
     }
 
-    .hero h1 .green {
-      color: var(--green);
+    .hero h1 span {
+      display: block;
     }
 
-    .hero-description {
-      max-width: 470px;
-      margin-top: 26px;
-      color: var(--grey);
-      font-size: 12px;
-      line-height: 2.1;
+    .hero h1 .outlined {
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(237, 240, 235, 0.75);
+    }
+
+    .hero-bottom {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      gap: 45px;
+      margin-top: 42px;
+    }
+
+    .hero-intro {
+      max-width: 480px;
+      color: #c2cbc7;
+      font-size: 16px;
+      line-height: 1.9;
+    }
+
+    .hero-intro strong {
+      color: var(--text);
+      font-weight: 700;
     }
 
     .hero-actions {
       display: flex;
-      flex-wrap: wrap;
       align-items: center;
-      gap: 25px;
-      margin-top: 34px;
+      gap: 12px;
+      flex-wrap: wrap;
     }
 
-    .button-primary {
+    .button {
+      min-height: 48px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 20px;
-      min-height: 47px;
-      padding: 0 20px;
-      background: var(--green);
-      color: #0f1821;
-      font-size: 10px;
+      gap: 12px;
+      padding: 12px 18px;
+      border: 1px solid var(--line);
+      font-size: 12px;
       font-weight: 800;
-      transition: background 0.2s, transform 0.2s;
+      transition:
+        background 180ms ease,
+        border-color 180ms ease,
+        color 180ms ease;
+    }
+
+    .button-primary {
+      border-color: var(--green);
+      background: var(--green);
+      color: #102019;
     }
 
     .button-primary:hover {
-      background: #a0d6ac;
-      transform: translateY(-2px);
+      border-color: #a4d8af;
+      background: #a4d8af;
     }
 
-    .button-primary span {
-      font-size: 16px;
+    .button-secondary:hover {
+      border-color: var(--green);
+      color: var(--green);
     }
 
-    .hero-secondary {
-      color: var(--grey);
+    .hero-index {
+      position: absolute;
+      right: 32px;
+      bottom: 38px;
+      color: rgba(237, 240, 235, 0.48);
       font-size: 10px;
-      font-weight: 600;
-      transition: color 0.2s;
-    }
-
-    .hero-secondary:hover {
-      color: var(--green);
-    }
-
-    /* Visual collage */
-    .hero-visual {
-      position: relative;
-      min-height: 490px;
-      isolation: isolate;
-    }
-
-    .visual-main {
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 73%;
-      height: 82%;
-      overflow: hidden;
-      background: #263b37;
-      border: 1px solid var(--line);
-    }
-
-    .visual-main img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: saturate(0.65) brightness(0.72);
-    }
-
-    .visual-main::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(180deg, transparent 30%, rgba(15, 24, 33, 0.8)),
-        linear-gradient(120deg, rgba(70, 151, 88, 0.18), transparent 60%);
-    }
-
-    .visual-main-caption {
-      position: absolute;
-      z-index: 2;
-      left: 23px;
-      bottom: 22px;
-    }
-
-    .visual-main-caption span {
-      display: block;
-      color: #c3d5c5;
-      font-size: 9px;
       font-weight: 700;
-      letter-spacing: 1.5px;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
     }
 
-    .visual-main-caption strong {
-      display: block;
-      margin-top: 5px;
-      font-family: var(--display);
-      font-size: 20px;
-      font-weight: 700;
-    }
+    /* Small introduction strip */
 
-    .visual-portrait {
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 45%;
-      height: 56%;
-      overflow: hidden;
-      z-index: 3;
-      background:
-        radial-gradient(ellipse at 50% 30%, #647d68, transparent 52%),
-        linear-gradient(145deg, #304538, #19272c);
-      border: 5px solid var(--bg);
-    }
-
-    .visual-portrait img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: saturate(0.65);
-    }
-
-    .portrait-placeholder {
-      display: flex;
-      height: 100%;
-      padding: 15px;
-      align-items: flex-end;
-      color: rgba(255, 255, 255, 0.8);
-      font-size: 9px;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      background: linear-gradient(
-        0deg,
-        rgba(15, 24, 33, 0.65),
-        transparent 60%
-      );
-    }
-
-    .visual-small {
-      position: absolute;
-      right: 0;
-      bottom: 0;
-      z-index: 4;
-      width: 43%;
-      height: 32%;
-      overflow: hidden;
-      border: 5px solid var(--bg);
-      background: #1d302b;
-    }
-
-    .visual-small img {
-      height: 100%;
-      object-fit: cover;
-      filter: saturate(0.55) brightness(0.75);
-    }
-
-    .visual-coordinate {
-      position: absolute;
-      top: 0;
-      left: 0;
-      color: var(--grey-dim);
-      font-size: 9px;
-      letter-spacing: 1px;
-      writing-mode: vertical-rl;
-      transform: rotate(180deg);
-    }
-
-    .visual-index {
-      position: absolute;
-      top: 16px;
-      left: 35px;
-      z-index: 5;
-      color: var(--green);
-      font-size: 10px;
-      letter-spacing: 2px;
-    }
-
-    .visual-line {
-      position: absolute;
-      z-index: -1;
-      right: 9%;
-      bottom: 4%;
-      width: 80%;
-      height: 80%;
-      border: 1px solid rgba(135, 197, 149, 0.25);
-      transform: translate(13px, 13px);
-    }
-
-    .hero-foot {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 20px;
-      margin-top: 65px;
-      padding-top: 20px;
-      border-top: 1px solid var(--line);
-    }
-
-    .hero-foot span {
-      color: var(--grey-dim);
-      font-size: 9px;
-      letter-spacing: 1.2px;
-      text-transform: uppercase;
-    }
-
-    .hero-foot strong {
-      color: var(--green);
-      font-weight: 600;
-    }
-
-    /* =========================================
-       DISCIPLINE STRIP
-    ========================================= */
-
-    .discipline-strip {
-      background: var(--bg-2);
+    .intro-strip {
       border-top: 1px solid var(--line);
       border-bottom: 1px solid var(--line);
     }
 
-    .discipline-inner {
+    .strip-inner {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(3, 1fr);
     }
 
-    .discipline {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 24px 16px;
-      border-right: 1px solid var(--line);
+    .strip-item {
+      padding: 30px 25px 30px 0;
     }
 
-    .discipline:first-child {
+    .strip-item + .strip-item {
+      padding-left: 30px;
       border-left: 1px solid var(--line);
     }
 
-    .discipline-number {
+    .strip-item span {
+      display: block;
       color: var(--green);
       font-size: 10px;
-      font-weight: 700;
-    }
-
-    .discipline-name {
-      color: var(--grey);
-      font-size: 10px;
-      font-weight: 600;
-    }
-
-    /* =========================================
-       ABOUT ME — LONGER INTRO + MAP
-    ========================================= */
-
-    .about-intro-grid {
-      display: grid;
-      grid-template-columns: 0.9fr 1.1fr;
-      gap: 90px;
-      align-items: start;
-    }
-
-    .about-lead {
-      font-family: var(--display);
-      font-size: clamp(30px, 3.8vw, 47px);
-      font-weight: 700;
-      letter-spacing: -1.8px;
-      line-height: 1.28;
-    }
-
-    .about-lead .green {
-      color: var(--green);
-    }
-
-    .about-body p {
-      color: var(--grey);
-      font-size: 12px;
-      line-height: 2.15;
-      margin-bottom: 18px;
-    }
-
-    .about-body p:last-of-type {
-      margin-bottom: 25px;
-    }
-
-    .about-values {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 0 22px;
-      margin-top: 28px;
-      border-top: 1px solid var(--line);
-    }
-
-    .about-value {
-      padding: 16px 0;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .about-value strong {
-      display: block;
-      color: var(--white);
-      font-size: 11px;
-      font-weight: 700;
-    }
-
-    .about-value span {
-      display: block;
-      margin-top: 3px;
-      color: var(--grey-dim);
-      font-size: 10px;
-    }
-
-    /* Photo row */
-    .about-image-row {
-      display: grid;
-      grid-template-columns: 1.1fr 0.9fr 1.1fr;
-      gap: 12px;
-      margin-top: 75px;
-    }
-
-    .about-image {
-      position: relative;
-      height: 230px;
-      overflow: hidden;
-      background: var(--bg-3);
-    }
-
-    .about-image:nth-child(2) {
-      margin-top: 28px;
-    }
-
-    .about-image img {
-      height: 100%;
-      object-fit: cover;
-      filter: saturate(0.6) brightness(0.75);
-      transition: transform 0.5s, filter 0.5s;
-    }
-
-    .about-image:hover img {
-      transform: scale(1.045);
-      filter: saturate(0.8) brightness(0.9);
-    }
-
-    .about-image::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        0deg,
-        rgba(15, 24, 33, 0.8),
-        transparent 65%
-      );
-      pointer-events: none;
-    }
-
-    .about-image-label {
-      position: absolute;
-      z-index: 2;
-      bottom: 14px;
-      left: 15px;
-      font-size: 9px;
-      font-weight: 700;
-      letter-spacing: 1.2px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
     }
 
-    /* Map */
-    .map-section {
-      margin-top: 100px;
-      padding-top: 75px;
+    .strip-item p {
+      margin-top: 6px;
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    /* About */
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      align-items: start;
+      gap: 80px;
+    }
+
+    .about-visual {
+      position: relative;
+      min-height: 520px;
+      overflow: hidden;
+      background: var(--background-soft);
+    }
+
+    .about-visual img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.75;
+      filter: saturate(0.6);
+    }
+
+    .about-visual::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(0deg, rgba(15, 24, 33, 0.9), transparent 75%),
+        linear-gradient(90deg, rgba(15, 24, 33, 0.2), transparent);
+    }
+
+    .visual-caption {
+      position: absolute;
+      z-index: 1;
+      right: 24px;
+      bottom: 24px;
+      left: 24px;
+    }
+
+    .visual-caption span {
+      display: block;
+      color: var(--green);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .visual-caption p {
+      margin-top: 7px;
+      font-family: var(--heading);
+      font-size: 27px;
+      line-height: 1.2;
+      letter-spacing: -0.04em;
+      text-transform: uppercase;
+    }
+
+    .about-copy h3 {
+      max-width: 620px;
+      margin: 20px 0 25px;
+      font-size: clamp(27px, 3.2vw, 42px);
+      line-height: 1.25;
+      font-weight: 700;
+      letter-spacing: -0.045em;
+    }
+
+    .about-copy p {
+      margin-bottom: 17px;
+      color: var(--muted);
+    }
+
+    .about-copy p strong {
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .about-facts {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0 24px;
+      margin-top: 34px;
       border-top: 1px solid var(--line);
     }
 
-    .map-heading {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: 25px;
-      margin-bottom: 28px;
+    .fact {
+      padding: 17px 0;
+      border-bottom: 1px solid var(--line);
     }
 
-    .map-heading h3 {
-      font-family: var(--display);
-      font-size: clamp(27px, 4vw, 42px);
-      font-weight: 700;
-      line-height: 1.2;
-      letter-spacing: -1.7px;
-    }
-
-    .map-heading p {
-      max-width: 330px;
-      color: var(--grey);
+    .fact span {
+      display: block;
+      color: var(--muted);
       font-size: 11px;
-      line-height: 1.9;
     }
+
+    .fact strong {
+      display: block;
+      margin-top: 4px;
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    /* A quieter image band */
+
+    .image-band {
+      min-height: 310px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      background: var(--background-soft);
+      isolation: isolate;
+    }
+
+    .image-band::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background-image: url("https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=2200&q=85");
+      background-position: center 48%;
+      background-size: cover;
+      opacity: 0.30;
+      filter: saturate(0.45);
+    }
+
+    .image-band::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(
+        90deg,
+        #0f1821 0%,
+        rgba(15, 24, 33, 0.85) 45%,
+        rgba(15, 24, 33, 0.45) 100%
+      );
+    }
+
+    .image-band h2 {
+      max-width: 760px;
+      padding: 80px 0;
+      font-size: clamp(38px, 6vw, 72px);
+    }
+
+    /* Map */
 
     .map-layout {
       display: grid;
-      grid-template-columns: 1fr 280px;
+      grid-template-columns: minmax(0, 1.35fr) minmax(260px, 0.65fr);
+      gap: 35px;
+      align-items: stretch;
+    }
+
+    #experience-map {
+      min-height: 470px;
+      background: #d9e2dc;
       border: 1px solid var(--line);
-      background: var(--bg-2);
     }
 
-    .map-canvas-wrap {
-      position: relative;
-      min-width: 0;
-      background: #111d26;
-      border-right: 1px solid var(--line);
-    }
-
-    #study-map {
-      height: 490px;
-      width: 100%;
-      background: #111d26;
-    }
-
-    .map-top-label {
-      position: absolute;
-      z-index: 500;
-      top: 18px;
-      left: 18px;
-      padding: 8px 11px;
-      background: rgba(15, 24, 33, 0.9);
-      border: 1px solid var(--line);
-      color: var(--green);
-      font-size: 9px;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      pointer-events: none;
-    }
-
-    .map-side {
-      display: flex;
-      flex-direction: column;
-      padding: 25px 21px;
-    }
-
-    .map-side > .small-label {
-      margin-bottom: 19px;
-    }
-
-    .map-place-list {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .map-place {
-      display: grid;
-      grid-template-columns: 25px 1fr;
-      gap: 9px;
-      padding: 15px 0;
-      border-top: 1px solid var(--line);
-      text-align: left;
-      background: transparent;
-      border-right: 0;
-      border-bottom: 0;
-      border-left: 0;
-      cursor: pointer;
-      color: var(--white);
-      transition: color 0.2s;
-    }
-
-    .map-place:hover,
-    .map-place.active {
-      color: var(--green);
-    }
-
-    .map-place-number {
-      color: var(--green);
-      font-size: 10px;
-      font-weight: 700;
-      padding-top: 2px;
-    }
-
-    .map-place strong {
-      display: block;
-      font-size: 10px;
-      font-weight: 700;
-      line-height: 1.7;
-    }
-
-    .map-place small {
-      display: block;
-      color: var(--grey-dim);
-      font-size: 9px;
-      margin-top: 2px;
-    }
-
-    .map-hint {
-      margin-top: auto;
-      padding-top: 25px;
-      color: var(--grey-dim);
-      font-size: 10px;
-      line-height: 1.9;
-    }
-
-    .map-hint span {
-      color: var(--green);
-    }
-
-    /* Leaflet theme */
     .leaflet-container {
       font-family: var(--body);
     }
 
-    .leaflet-control-attribution {
-      background: rgba(15, 24, 33, 0.85) !important;
-      color: var(--grey-dim) !important;
-      font-size: 8px !important;
+    .leaflet-popup-content-wrapper,
+    .leaflet-popup-tip {
+      background: #f2f5ef;
+      color: #17232a;
     }
 
-    .leaflet-control-attribution a {
-      color: var(--green) !important;
-    }
-
-    .leaflet-control-zoom a {
-      background: var(--bg-2) !important;
-      color: var(--white) !important;
-      border-color: var(--line) !important;
-    }
-
-    .leaflet-tooltip.study-tooltip {
-      background: #192630;
-      border: 1px solid #469758;
-      border-radius: 0;
-      box-shadow: none;
-      color: var(--white);
-      padding: 8px 11px;
-      font-family: var(--body);
-      font-size: 10px;
-    }
-
-    .leaflet-tooltip.study-tooltip::before {
-      border-top-color: #469758;
-    }
-
-    .study-marker {
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      background: var(--green);
-      border: 3px solid #203d2a;
-      box-shadow: 0 0 0 4px rgba(135, 197, 149, 0.18);
-      transition: transform 0.2s;
-    }
-
-    .study-marker:hover {
-      transform: scale(1.3);
-    }
-
-    /* =========================================
-       EXPERIENCE
-    ========================================= */
-
-    .experience-note {
-      max-width: 600px;
-      color: var(--grey);
+    .leaflet-popup-content {
       font-size: 12px;
-      line-height: 2;
-      margin-top: -25px;
-      margin-bottom: 48px;
+      line-height: 1.6;
     }
+
+    .map-list {
+      display: flex;
+      flex-direction: column;
+      border-top: 1px solid var(--line);
+    }
+
+    .map-place {
+      display: grid;
+      grid-template-columns: 38px 1fr auto;
+      align-items: center;
+      gap: 12px;
+      padding: 17px 0;
+      border-bottom: 1px solid var(--line);
+      cursor: pointer;
+    }
+
+    .map-number {
+      color: var(--green);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .map-place strong {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .map-place span {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .map-arrow {
+      color: var(--green);
+      font-size: 18px;
+      transition: transform 180ms ease;
+    }
+
+    .map-place:hover .map-arrow {
+      transform: translateX(4px);
+    }
+
+    .map-note {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.8;
+    }
+
+    /* Experience */
 
     .experience-list {
       border-top: 1px solid var(--line);
@@ -883,563 +638,571 @@ nav,
       display: grid;
       grid-template-columns: 190px 1fr;
       gap: 45px;
-      padding: 42px 25px;
+      padding: 36px 0;
       border-bottom: 1px solid var(--line);
-      scroll-margin-top: 95px;
-      transition: background 0.25s;
+      scroll-margin-top: 105px;
     }
 
-    .experience-item.highlighted {
-      background: var(--green-faint);
+    .experience-meta {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.8;
     }
 
-    .experience-label {
-      padding-top: 5px;
-    }
-
-    .experience-label .type {
+    .experience-meta strong {
+      display: block;
+      margin-bottom: 5px;
       color: var(--green);
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 1.4px;
+      font-size: 11px;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
     }
 
-    .experience-label .country {
-      display: block;
-      margin-top: 8px;
-      color: var(--grey-dim);
-      font-size: 10px;
-    }
-
     .experience-content h3 {
-      font-family: var(--display);
-      font-size: clamp(24px, 3vw, 35px);
-      font-weight: 700;
-      letter-spacing: -1.1px;
-      line-height: 1.3;
+      margin-bottom: 9px;
+      font-size: 25px;
+      line-height: 1.35;
+      letter-spacing: -0.04em;
     }
 
-    .experience-place {
-      margin-top: 6px;
+    .experience-content .institution {
+      margin-bottom: 15px;
       color: var(--green);
-      font-size: 11px;
-      font-weight: 600;
+      font-size: 12px;
+      font-weight: 700;
     }
 
     .experience-content p {
-      max-width: 720px;
-      margin-top: 18px;
-      color: var(--grey);
-      font-size: 11px;
-      line-height: 2.1;
+      max-width: 750px;
+      color: var(--muted);
     }
 
-    .tag-list {
+    .experience-content p + p {
+      margin-top: 12px;
+    }
+
+    .tag-row {
       display: flex;
       flex-wrap: wrap;
-      gap: 7px;
-      margin-top: 21px;
+      gap: 8px;
+      margin-top: 19px;
     }
 
-    .tag-list span {
+    .tag {
       padding: 5px 9px;
-      border: 1px solid var(--line-strong);
-      color: var(--grey);
-      font-size: 9px;
-    }
-
-    .exchange-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin-top: 26px;
-    }
-
-    .exchange-card {
-      padding: 20px 16px;
-      min-height: 155px;
-      background: var(--bg-2);
       border: 1px solid var(--line);
-      transition: border-color 0.2s, background 0.2s;
+      color: #c5d1cb;
+      font-size: 10px;
+      font-weight: 600;
     }
 
-    .exchange-card:hover {
-      background: var(--bg-3);
-      border-color: var(--green-dark);
+    /* Projects */
+
+    .projects-topline {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 30px;
+      margin-bottom: 44px;
     }
 
-    .exchange-card .number {
-      color: var(--green);
-      font-size: 9px;
-      font-weight: 700;
-      letter-spacing: 1px;
+    .projects-topline .section-heading {
+      margin-bottom: 0;
     }
 
-    .exchange-card h4 {
-      margin-top: 13px;
-      font-size: 16px;
-      font-weight: 700;
-      line-height: 1.5;
-    }
-
-    .exchange-card p {
-      margin-top: 8px;
-      color: var(--grey-dim);
-      font-size: 9px;
-    }
-
-    /* =========================================
-       PROJECTS
-    ========================================= */
-
-    .projects-note {
-      max-width: 620px;
-      color: var(--grey);
+    .projects-topline > p {
+      max-width: 260px;
+      color: var(--muted);
       font-size: 12px;
-      line-height: 2;
-      margin-top: -25px;
-      margin-bottom: 45px;
     }
 
-    .project-grid {
+    .project-list {
+      border-top: 1px solid var(--line);
+    }
+
+    .project {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 20px;
-    }
-
-    .project-card {
-      min-width: 0;
-      background: var(--bg-2);
-      border: 1px solid var(--line);
-      transition: border-color 0.25s, transform 0.25s;
-    }
-
-    .project-card:hover {
-      border-color: var(--green-dark);
-      transform: translateY(-3px);
-    }
-
-    .project-visual {
-      position: relative;
-      height: 265px;
-      overflow: hidden;
-      background: #17252c;
+      grid-template-columns: 75px minmax(0, 1fr) 240px 30px;
+      align-items: center;
+      gap: 28px;
+      padding: 28px 0;
       border-bottom: 1px solid var(--line);
+      transition: padding 180ms ease;
     }
 
-    .project-visual img {
+    .project:hover {
+      padding-right: 10px;
+      padding-left: 10px;
+    }
+
+    .project-number {
+      align-self: start;
+      padding-top: 8px;
+      color: var(--green);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+    }
+
+    .project-main h3 {
+      font-family: var(--heading);
+      font-size: clamp(21px, 2.5vw, 30px);
+      font-weight: 400;
+      letter-spacing: -0.055em;
+      line-height: 1.15;
+      text-transform: uppercase;
+    }
+
+    .project-main p {
+      max-width: 550px;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    .project-type {
+      margin-top: 12px;
+      color: var(--green);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+
+    .project-image {
+      height: 145px;
+      position: relative;
+      overflow: hidden;
+      background: var(--background-soft);
+    }
+
+    .project-image img {
+      width: 100%;
       height: 100%;
       object-fit: cover;
-      filter: saturate(0.55) brightness(0.68);
-      transition: transform 0.5s, filter 0.5s;
+      opacity: 0.78;
+      filter: saturate(0.55);
+      transition:
+        transform 350ms ease,
+        opacity 350ms ease;
     }
 
-    .project-card:hover .project-visual img {
+    .project:hover .project-image img {
+      opacity: 1;
       transform: scale(1.04);
-      filter: saturate(0.7) brightness(0.82);
     }
 
-    .project-visual::after {
+    .project-arrow {
+      align-self: start;
+      color: var(--green);
+      font-size: 22px;
+      transition: transform 180ms ease;
+    }
+
+    .project:hover .project-arrow {
+      transform: translate(3px, -3px);
+    }
+
+    .project-footnote {
+      margin-top: 24px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    /* Personal note */
+
+    .personal-section {
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .personal-section::before {
       content: "";
       position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        0deg,
-        rgba(15, 24, 33, 0.7),
-        transparent 65%
+      top: -120px;
+      right: -100px;
+      z-index: -1;
+      width: 440px;
+      height: 440px;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle,
+        rgba(70, 151, 88, 0.14),
+        transparent 70%
       );
       pointer-events: none;
     }
 
-    .project-visual-label {
-      position: absolute;
-      z-index: 2;
-      left: 20px;
-      bottom: 17px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
-      width: calc(100% - 40px);
-      color: var(--white);
-      font-size: 9px;
-      font-weight: 700;
-      letter-spacing: 1.2px;
-      text-transform: uppercase;
-    }
-
-    .project-visual-label span:last-child {
-      color: var(--green);
-    }
-
-    .project-content {
-      padding: 25px;
-    }
-
-    .project-type {
-      color: var(--green);
-      font-size: 9px;
-      font-weight: 700;
-      letter-spacing: 1.3px;
-      text-transform: uppercase;
-    }
-
-    .project-content h3 {
-      margin-top: 12px;
-      font-family: var(--display);
-      font-size: clamp(22px, 2.5vw, 30px);
-      font-weight: 700;
-      letter-spacing: -1px;
-      line-height: 1.3;
-    }
-
-    .project-content p {
-      margin-top: 14px;
-      color: var(--grey);
-      font-size: 11px;
-      line-height: 2;
-    }
-
-    .project-bottom {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      margin-top: 23px;
-      padding-top: 16px;
-      border-top: 1px solid var(--line);
-    }
-
-    .project-bottom span {
-      color: var(--grey-dim);
-      font-size: 9px;
-    }
-
-    .project-bottom a {
-      color: var(--green);
-      font-size: 10px;
-      font-weight: 700;
-    }
-
-    .project-bottom a:hover {
-      color: var(--white);
-    }
-
-    /* =========================================
-       CONTACT
-    ========================================= */
-
-    .contact-layout {
+    .personal-grid {
       display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 80px;
-      align-items: end;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 90px;
+      align-items: start;
     }
 
-    .contact-layout h2 {
-      margin-top: 25px;
-      font-family: var(--display);
-      font-size: clamp(46px, 7vw, 80px);
-      font-weight: 800;
-      letter-spacing: -3.5px;
-      line-height: 1.07;
+    .personal-grid h2 {
+      margin-top: 22px;
+      font-size: clamp(40px, 5.7vw, 70px);
     }
 
-    .contact-layout h2 .green {
-      color: var(--green);
+    .personal-copy p {
+      max-width: 650px;
+      color: var(--muted);
     }
 
-    .contact-layout .description {
-      max-width: 480px;
+    .personal-copy p + p {
+      margin-top: 18px;
+    }
+
+    .personal-copy strong {
+      color: var(--text);
+    }
+
+    /* Contact */
+
+    .contact {
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .contact::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background-image: url("https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=2000&q=85");
+      background-position: center;
+      background-size: cover;
+      opacity: 0.13;
+      filter: saturate(0.35);
+    }
+
+    .contact::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(
+        90deg,
+        #0f1821 0%,
+        rgba(15, 24, 33, 0.92) 65%,
+        rgba(15, 24, 33, 0.72) 100%
+      );
+    }
+
+    .contact h2 {
+      max-width: 900px;
       margin-top: 24px;
-      color: var(--grey);
-      font-size: 12px;
-      line-height: 2;
+      font-size: clamp(48px, 8vw, 100px);
+    }
+
+    .contact-bottom {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 30px;
+      margin-top: 50px;
+    }
+
+    .contact-bottom p {
+      max-width: 420px;
+      color: var(--muted);
     }
 
     .contact-links {
-      border-top: 1px solid var(--line);
-    }
-
-    .contact-links a {
       display: flex;
-      justify-content: space-between;
-      gap: 20px;
-      padding: 18px 0;
-      border-bottom: 1px solid var(--line);
-      color: var(--grey);
-      font-size: 11px;
-      transition: color 0.2s;
+      flex-wrap: wrap;
+      gap: 10px;
     }
 
-    .contact-links a span:last-child {
-      color: var(--green);
-    }
-
-    .contact-links a:hover {
-      color: var(--green);
-    }
-
-    footer {
-      padding: 23px 0;
+    .footer {
+      padding: 25px 0;
       border-top: 1px solid var(--line);
-      background: var(--bg-2);
     }
 
     .footer-inner {
       display: flex;
       justify-content: space-between;
-      align-items: center;
       gap: 20px;
-      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 10px;
     }
 
-    .footer-inner span {
-      color: var(--grey-dim);
-      font-size: 9px;
-    }
-
-    .footer-inner .footer-mark {
+    .footer-inner strong {
       color: var(--green);
       font-weight: 700;
-      letter-spacing: 1px;
     }
 
-    /* =========================================
-       RESPONSIVE
-    ========================================= */
+    /* Responsive */
 
-    @media (max-width: 950px) {
-      .hero-layout {
-        grid-template-columns: 1fr 0.85fr;
-        gap: 28px;
+    @media (max-width: 850px) {
+      .container {
+        width: min(100% - 40px, var(--page-width));
+      }
+
+      .nav {
+        min-height: 70px;
+      }
+
+      .nav-links {
+        gap: 17px;
+      }
+
+      .nav-links a {
+        font-size: 11px;
+      }
+
+      .nav-contact {
+        padding: 7px 10px;
       }
 
       .hero h1 {
-        font-size: clamp(43px, 6.2vw, 66px);
-        letter-spacing: -2.5px;
+        font-size: clamp(52px, 10vw, 90px);
       }
 
-      .hero-visual {
-        min-height: 400px;
+      .hero-bottom {
+        grid-template-columns: 1fr;
+        gap: 25px;
       }
 
-      .about-intro-grid {
-        gap: 45px;
+      .about-grid,
+      .personal-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .about-visual {
+        min-height: 440px;
       }
 
       .map-layout {
-        grid-template-columns: 1fr 240px;
+        grid-template-columns: 1fr;
+      }
+
+      .map-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        column-gap: 24px;
       }
 
       .experience-item {
         grid-template-columns: 145px 1fr;
-        gap: 28px;
+        gap: 25px;
       }
 
-      .contact-layout {
-        gap: 45px;
+      .project {
+        grid-template-columns: 40px minmax(0, 1fr) 170px 20px;
+        gap: 16px;
+      }
+
+      .project-image {
+        height: 120px;
+      }
+
+      .section {
+        padding: 95px 0;
       }
     }
 
-    @media (max-width: 700px) {
+    @media (max-width: 560px) {
       .container {
         width: calc(100% - 36px);
       }
 
-      .nav-inner {
-        min-height: 74px;
-        flex-direction: column;
+      .nav {
+        min-height: auto;
         align-items: flex-start;
-        justify-content: center;
-        gap: 0;
-        padding: 9px 0;
-      }
-
-      .brand {
-        font-size: 15px;
+        flex-direction: column;
+        gap: 16px;
+        padding-top: 18px;
+        padding-bottom: 15px;
       }
 
       .nav-links {
         width: 100%;
         justify-content: space-between;
         gap: 10px;
-      }
-
-      .nav-links a {
-        padding: 9px 0 4px;
-        font-size: 9px;
-      }
-
-      .nav-links a::after {
-        bottom: 0;
-      }
-
-      .hero {
-        padding: 62px 0 55px;
-      }
-
-      .hero-layout {
-        grid-template-columns: 1fr;
-        gap: 40px;
-      }
-
-      .hero h1 {
-        font-size: clamp(44px, 11.5vw, 67px);
-        letter-spacing: -2.7px;
-      }
-
-      .hero-visual {
-        width: 100%;
-        max-width: 500px;
-        min-height: 390px;
-      }
-
-      .hero-foot {
-        margin-top: 35px;
         flex-wrap: wrap;
       }
 
-      .discipline-inner {
-        grid-template-columns: repeat(2, 1fr);
+      .nav-links a {
+        font-size: 10px;
       }
 
-      .discipline {
-        padding: 17px 10px;
+      .nav-contact {
+        padding: 4px 7px;
+      }
+
+      .hero {
+        min-height: auto;
+      }
+
+      .hero-content {
+        padding-top: 95px;
+        padding-bottom: 105px;
+      }
+
+      .hero::before {
+        background-position: 58% center;
+        opacity: 0.17;
+      }
+
+      .hero::after {
+        background:
+          linear-gradient(
+            90deg,
+            rgba(15, 24, 33, 0.94),
+            rgba(15, 24, 33, 0.62)
+          ),
+          linear-gradient(0deg, #0f1821, transparent 60%);
+      }
+
+      .hero h1 {
+        font-size: clamp(45px, 12vw, 68px);
+        letter-spacing: -0.07em;
+      }
+
+      .hero-topline {
+        font-size: 9px;
+        margin-bottom: 26px;
+      }
+
+      .hero-intro {
+        font-size: 14px;
+      }
+
+      .hero-index {
+        right: 18px;
+        bottom: 18px;
+        font-size: 8px;
+      }
+
+      .strip-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .strip-item,
+      .strip-item + .strip-item {
+        padding: 18px 0;
+        border-left: 0;
         border-bottom: 1px solid var(--line);
       }
 
-      .discipline:nth-child(odd) {
-        border-left: 1px solid var(--line);
+      .strip-item:last-child {
+        border-bottom: 0;
       }
 
       .section {
-        padding: 80px 0;
+        padding: 78px 0;
       }
 
-      .section-top {
-        display: block;
-        margin-bottom: 35px;
+      .section-heading {
+        margin-bottom: 34px;
       }
 
-      .section-intro {
-        margin-top: 17px;
+      .section-heading h2 {
+        font-size: 43px;
       }
 
-      .section-title {
-        font-size: clamp(38px, 10vw, 53px);
+      .about-visual {
+        min-height: 350px;
       }
 
-      .about-intro-grid {
+      .about-facts {
+        grid-template-columns: 1fr 1fr;
+        gap: 0 15px;
+      }
+
+      .image-band {
+        min-height: 250px;
+      }
+
+      .image-band h2 {
+        font-size: 39px;
+      }
+
+      #experience-map {
+        min-height: 350px;
+      }
+
+      .map-list {
         grid-template-columns: 1fr;
-        gap: 28px;
-      }
-
-      .about-lead {
-        font-size: 32px;
-      }
-
-      .about-image-row {
-        gap: 7px;
-        margin-top: 45px;
-      }
-
-      .about-image {
-        height: 145px;
-      }
-
-      .about-image:nth-child(2) {
-        margin-top: 15px;
-      }
-
-      .about-image-label {
-        left: 7px;
-        bottom: 7px;
-        font-size: 7px;
-        letter-spacing: 0.5px;
-      }
-
-      .map-section {
-        margin-top: 65px;
-        padding-top: 45px;
-      }
-
-      .map-heading {
-        display: block;
-      }
-
-      .map-heading p {
-        margin-top: 15px;
-      }
-
-      .map-layout {
-        grid-template-columns: 1fr;
-      }
-
-      .map-canvas-wrap {
-        border-right: 0;
-        border-bottom: 1px solid var(--line);
-      }
-
-      #study-map {
-        height: 350px;
-      }
-
-      .map-side {
-        padding: 20px;
-      }
-
-      .map-place-list {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        column-gap: 18px;
-      }
-
-      .map-hint {
-        margin-top: 18px;
-      }
-
-      .experience-note,
-      .projects-note {
-        margin-top: -15px;
-        margin-bottom: 35px;
       }
 
       .experience-item {
         grid-template-columns: 1fr;
-        gap: 13px;
-        padding: 30px 15px;
+        gap: 12px;
+        padding: 28px 0;
       }
 
       .experience-content h3 {
-        font-size: 27px;
+        font-size: 23px;
       }
 
-      .exchange-grid {
-        grid-template-columns: 1fr;
+      .projects-topline {
+        display: block;
       }
 
-      .exchange-card {
-        min-height: unset;
+      .projects-topline > p {
+        margin-top: 18px;
       }
 
-      .project-grid {
-        grid-template-columns: 1fr;
+      .project {
+        position: relative;
+        grid-template-columns: 30px minmax(0, 1fr) 20px;
+        align-items: start;
+        gap: 12px;
+        padding: 25px 0;
       }
 
-      .project-visual {
-        height: 230px;
+      .project-number {
+        padding-top: 4px;
       }
 
-      .contact-layout {
-        grid-template-columns: 1fr;
-        gap: 38px;
+      .project-main h3 {
+        font-size: 23px;
       }
 
-      .contact-layout h2 {
-        font-size: clamp(45px, 11vw, 65px);
-        letter-spacing: -2.5px;
+      .project-image {
+        grid-column: 2 / 3;
+        width: 100%;
+        height: 170px;
+        margin-top: 8px;
+      }
+
+      .project-arrow {
+        grid-column: 3;
+        grid-row: 1;
+      }
+
+      .project:hover {
+        padding-right: 0;
+        padding-left: 0;
+      }
+
+      .personal-grid {
+        gap: 25px;
+      }
+
+      .personal-grid h2 {
+        font-size: 44px;
+      }
+
+      .contact h2 {
+        font-size: 51px;
+      }
+
+      .contact-bottom {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        gap: 6px;
       }
     }
 
@@ -1452,7 +1215,6 @@ nav,
       *::before,
       *::after {
         transition-duration: 0.01ms !important;
-        animation-duration: 0.01ms !important;
       }
     }
   </style>
@@ -1460,526 +1222,470 @@ nav,
 
 <body>
 
-  <!-- NAVIGATION -->
-  <header class="topbar">
-    <div class="container nav-inner">
-      <a class="brand" href="#home">
-        YOUR NAME<span class="dot">.</span>
-      </a>
+  <!-- TOP NAVIGATION -->
 
-      <nav class="nav-links" aria-label="Main navigation">
-        <a href="#about">About Me</a>
+  <header class="topbar">
+    <nav class="nav container" aria-label="Main navigation">
+      <a class="brand" href="#home">YOUR NAME<span>.</span></a>
+
+      <div class="nav-links">
+        <a href="#about">About me</a>
         <a href="#experience">Experience</a>
         <a href="#projects">Projects</a>
-        <a href="#contact">Contact</a>
-      </nav>
-    </div>
+        <a class="nav-contact" href="#contact">Say hello ↗</a>
+      </div>
+    </nav>
   </header>
 
   <main>
 
-    <!-- =======================================
-         HOMEPAGE: TITLE, INTRO, PERSONAL PHOTO
-    ======================================== -->
+    <!-- FRONT PAGE: NO MAP, NO CV -->
+
     <section class="hero" id="home">
-      <div class="container">
+      <div class="container hero-content">
 
-        <div class="hero-layout">
-
-          <div class="hero-copy">
-            <p class="eyebrow">Spatial planning · Geospatial research</p>
-
-            <h1>
-              I work where<br>
-              <span class="green">cities, data</span><br>
-              and space meet.
-            </h1>
-
-            <p class="hero-description">
-              Spatial planning graduate exploring geospatial analysis,
-              3D spatial data and digital representations of the built
-              environment. Interested in how we understand places —
-              and how technology can help us see them differently.
-            </p>
-
-            <div class="hero-actions">
-              <a class="button-primary" href="#about">
-                Get to know me <span>↗</span>
-              </a>
-
-              <a class="hero-secondary" href="#projects">
-                Explore selected work ↓
-              </a>
-            </div>
-          </div>
-
-          <!--
-            PERSONAL PHOTO:
-            Upload your photo into an assets folder.
-            Replace the placeholder div with:
-            <img src="assets/profile.jpg" alt="Portrait of Your Name">
-          -->
-          <div class="hero-visual">
-
-            <div class="visual-coordinate">
-              52°13' N · 21°00' E
-            </div>
-
-            <span class="visual-index">FIELD NOTES / 001</span>
-
-            <div class="visual-line"></div>
-
-            <!-- City image -->
-            <div class="visual-main">
-              <img
-                src="https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1200&q=85"
-                alt="Urban skyline and city buildings"
-                fetchpriority="high"
-              >
-
-              <div class="visual-main-caption">
-                <span>01 / Urban environments</span>
-                <strong>Reading the city.</strong>
-              </div>
-            </div>
-
-            <!-- Replace this placeholder with your own portrait -->
-            <div class="visual-portrait">
-              <div class="portrait-placeholder">
-                Your portrait goes here
-              </div>
-            </div>
-
-            <!-- Map / aerial visual -->
-            <div class="visual-small">
-              <img
-                src="https://images.unsplash.com/photo-1524666041070-9fc4f6e4b3a7?auto=format&fit=crop&w=600&q=80"
-                alt="Map and geographic details"
-                loading="lazy"
-              >
-            </div>
-
-          </div>
-
+        <div class="hero-topline">
+          <span class="status-dot"></span>
+          Spatial planning graduate · Warsaw, Poland
         </div>
 
-        <div class="hero-foot">
-          <span><strong>01</strong> / Planning</span>
-          <span><strong>02</strong> / Geospatial analysis</span>
-          <span><strong>03</strong> / 3D environments</span>
-          <span>Based in Europe · Looking beyond disciplines</span>
+        <h1 class="display">
+          <span>Cities are</span>
+          <span class="outlined">more than</span>
+          <span>what we see<span class="green">.</span></span>
+        </h1>
+
+        <div class="hero-bottom">
+          <p class="hero-intro">
+            I'm a spatial planning graduate interested in
+            <strong>the hidden layers of places</strong> — the data,
+            geometry, systems and stories that help us understand
+            how the world around us works.
+          </p>
+
+          <div class="hero-actions">
+            <a class="button button-primary" href="#about">
+              A little about me <span>↘</span>
+            </a>
+            <a class="button button-secondary" href="#projects">
+              Explore my work <span>↗</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-index">01 / A work in progress</div>
+    </section>
+
+
+    <!-- SHORT PERSONAL INTRO -->
+
+    <section class="intro-strip">
+      <div class="container strip-inner">
+
+        <div class="strip-item">
+          <span>Where I started</span>
+          <p>Spatial planning & urban design</p>
+        </div>
+
+        <div class="strip-item">
+          <span>What I keep exploring</span>
+          <p>GIS, Earth observation & 3D data</p>
+        </div>
+
+        <div class="strip-item">
+          <span>What drives me</span>
+          <p>Curiosity, research & better questions</p>
         </div>
 
       </div>
     </section>
 
-    <!-- CONNECTING STRIP -->
-    <div class="discipline-strip">
-      <div class="container discipline-inner">
 
-        <div class="discipline">
-          <span class="discipline-number">01</span>
-          <span class="discipline-name">Spatial planning</span>
+    <!-- ABOUT ME -->
+
+    <section class="section" id="about">
+      <div class="container about-grid">
+
+        <div class="about-visual">
+          <!-- Replace this image with your own portrait or fieldwork photo. -->
+          <img
+            src="https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=1200&q=85"
+            alt="Architectural forms and the built environment"
+            loading="lazy"
+          >
+
+          <div class="visual-caption">
+            <span>My perspective</span>
+            <p>Look closer.<br>There is always another layer.</p>
+          </div>
         </div>
 
-        <div class="discipline">
-          <span class="discipline-number">02</span>
-          <span class="discipline-name">GIS &amp; spatial data</span>
-        </div>
+        <div class="about-copy">
+          <div class="eyebrow">A bit more about me</div>
 
-        <div class="discipline">
-          <span class="discipline-number">03</span>
-          <span class="discipline-name">3D reconstruction</span>
-        </div>
+          <h3>
+            I came to geospatial research through my curiosity
+            about cities.
+          </h3>
 
-        <div class="discipline">
-          <span class="discipline-number">04</span>
-          <span class="discipline-name">Digital city models</span>
+          <p>
+            I studied Spatial Planning at Warsaw University of Technology,
+            where I became interested in how we represent, analyse and
+            understand the places we live in. Over time, I found myself
+            increasingly drawn to the technical side of that question.
+          </p>
+
+          <p>
+            GIS opened up new ways of looking at space. BIM introduced me
+            to the level of detail behind the built environment. My
+            bachelor's thesis on City Information Modeling brought those
+            interests together, exploring how digital representations of
+            cities can support spatial planning.
+          </p>
+
+          <p>
+            Since then, I've been exploring <strong>3D spatial data,
+            geospatial analysis and reality-based modelling</strong>,
+            including research work at KU Leuven. I'm interested in the
+            point where spatial questions meet computational methods —
+            and in learning how to investigate that intersection properly.
+          </p>
+
+          <p>
+            I'm still learning, experimenting and figuring out which
+            questions I want to spend the next few years pursuing.
+            That's part of the point. I want to build a career around
+            research without losing the curiosity that got me here.
+          </p>
+
+          <div class="about-facts">
+            <div class="fact">
+              <span>Academic background</span>
+              <strong>BEng Spatial Planning</strong>
+            </div>
+
+            <div class="fact">
+              <span>University</span>
+              <strong>Warsaw University of Technology</strong>
+            </div>
+
+            <div class="fact">
+              <span>Research interests</span>
+              <strong>Geospatial & 3D data</strong>
+            </div>
+
+            <div class="fact">
+              <span>Currently developing</span>
+              <strong>Python & computational workflows</strong>
+            </div>
+          </div>
         </div>
 
       </div>
-    </div>
+    </section>
 
-    <!-- =======================================
-         ABOUT ME: EXPANDED INTRO + MAP
-    ======================================== -->
-    <section class="section" id="about">
+
+    <!-- ATMOSPHERIC IMAGE BREAK -->
+
+    <section class="image-band" aria-label="Cities and spatial data">
+      <div class="container">
+        <div class="eyebrow">From the city to the data</div>
+
+        <h2 class="display">
+          One place.<br>
+          A thousand ways to understand it<span class="green">.</span>
+        </h2>
+      </div>
+    </section>
+
+
+    <!-- MAP OF ACADEMIC EXPERIENCES -->
+
+    <section class="section" id="places">
       <div class="container">
 
-        <div class="section-top">
-          <h2 class="section-title">
-            About <span class="accent">me.</span>
+        <div class="section-heading">
+          <div class="eyebrow">Places that shaped my journey</div>
+
+          <h2 class="display">
+            Learning doesn't happen in one place<span class="green">.</span>
           </h2>
 
-          <p class="section-intro">
-            My background is in spatial planning. My curiosity has
-            taken me into geospatial technologies, 3D data and
-            the digital representation of cities.
+          <p>
+            My studies, research and academic exchanges have taken me
+            across Europe. Explore the map to see where these experiences
+            happened and how they connect to what I do now.
           </p>
         </div>
 
-        <div class="about-intro-grid">
+        <div class="map-layout">
+          <div id="experience-map" aria-label="Map of my academic experiences"></div>
 
           <div>
-            <h3 class="about-lead">
-              Different ways of looking at <span class="green">the same space.</span>
-            </h3>
+            <div class="map-list">
 
-            <div class="about-values">
-              <div class="about-value">
-                <strong>Spatial thinking</strong>
-                <span>Understanding places and their relationships</span>
-              </div>
+              <a class="map-place" href="#ku-leuven">
+                <span class="map-number">01</span>
+                <div>
+                  <strong>KU Leuven</strong>
+                  <span>Leuven, Belgium</span>
+                </div>
+                <span class="map-arrow">↗</span>
+              </a>
 
-              <div class="about-value">
-                <strong>Geospatial methods</strong>
-                <span>Working with data, maps and analysis</span>
-              </div>
+              <a class="map-place" href="#warsaw">
+                <span class="map-number">02</span>
+                <div>
+                  <strong>Warsaw University of Technology</strong>
+                  <span>Warsaw, Poland</span>
+                </div>
+                <span class="map-arrow">↗</span>
+              </a>
 
-              <div class="about-value">
-                <strong>Digital environments</strong>
-                <span>Exploring 3D representations of space</span>
-              </div>
+              <a class="map-place" href="#tu-berlin">
+                <span class="map-number">03</span>
+                <div>
+                  <strong>TU Berlin</strong>
+                  <span>Berlin, Germany</span>
+                </div>
+                <span class="map-arrow">↗</span>
+              </a>
 
-              <div class="about-value">
-                <strong>Interdisciplinary work</strong>
-                <span>Connecting planning and technology</span>
-              </div>
-            </div>
-          </div>
+              <a class="map-place" href="#lisbon">
+                <span class="map-number">04</span>
+                <div>
+                  <strong>Instituto Superior Técnico</strong>
+                  <span>Lisbon, Portugal</span>
+                </div>
+                <span class="map-arrow">↗</span>
+              </a>
 
-          <div class="about-body">
-            <p>
-              I studied Spatial Planning at Warsaw University of
-              Technology, where I developed an interest in the
-              relationship between cities, spatial information
-              and the digital tools used to understand them.
-            </p>
+              <a class="map-place" href="#prague">
+                <span class="map-number">05</span>
+                <div>
+                  <strong>Czech Technical University</strong>
+                  <span>Prague, Czechia</span>
+                </div>
+                <span class="map-arrow">↗</span>
+              </a>
 
-            <p>
-              That interest gradually led me beyond conventional
-              planning workflows. Through GIS, BIM and City
-              Information Modeling, I became increasingly curious
-              about how spatial information is collected, structured,
-              represented and analysed.
-            </p>
-
-            <p>
-              During my research internship at KU Leuven, I explored
-              different 3D reconstruction workflows and compared
-              their approaches, accuracy and point-cloud outputs.
-              This gave me another perspective on spatial data:
-              not only how it is used, but how digital representations
-              of the physical world are created.
-            </p>
-
-            <p>
-              I am interested in developing this combination of
-              planning knowledge and geospatial methods further,
-              particularly through advanced study and research.
-              I see this portfolio as a record of that process —
-              a place to document projects, test ideas and make
-              connections between disciplines.
-            </p>
-
-            <a href="#experience" class="arrow-link">
-              Explore my experience <span>↗</span>
-            </a>
-          </div>
-
-        </div>
-
-        <!-- CONNECTING VISUALS -->
-        <div class="about-image-row">
-
-          <div class="about-image">
-            <img
-              src="https://images.unsplash.com/photo-1511818966892-d7d671e672a2?auto=format&fit=crop&w=800&q=80"
-              alt="Architectural structures and urban space"
-              loading="lazy"
-            >
-            <span class="about-image-label">01 / Built environment</span>
-          </div>
-
-          <div class="about-image">
-            <img
-              src="https://images.unsplash.com/photo-1502920514313-52581002a659?auto=format&fit=crop&w=800&q=80"
-              alt="Geographic landscape viewed from above"
-              loading="lazy"
-            >
-            <span class="about-image-label">02 / Spatial patterns</span>
-          </div>
-
-          <div class="about-image">
-            <img
-              src="https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=800&q=80"
-              alt="Modern building geometry"
-              loading="lazy"
-            >
-            <span class="about-image-label">03 / Digital perspectives</span>
-          </div>
-
-        </div>
-
-        <!-- INTERACTIVE EUROPE MAP -->
-        <div class="map-section">
-
-          <div class="map-heading">
-            <div>
-              <p class="eyebrow" style="margin-bottom:18px">
-                Places that shaped my path
-              </p>
-
-              <h3>My academic geography.</h3>
             </div>
 
-            <p>
-              Five places, different academic environments.
-              Select a marker or a location in the list to
-              explore what I did there.
+            <p class="map-note">
+              Select a place on the map or in the list to explore the
+              relevant experience. Academic exchanges are described
+              in the context of my wider journey.
             </p>
           </div>
-
-          <div class="map-layout">
-
-            <div class="map-canvas-wrap">
-              <span class="map-top-label">EUROPE / ACADEMIC ROUTES</span>
-              <div id="study-map" aria-label="Interactive map of my academic locations"></div>
-            </div>
-
-            <aside class="map-side">
-              <span class="small-label">Explore locations / 05</span>
-
-              <div class="map-place-list">
-
-                <button class="map-place" type="button" data-place="kuleuven">
-                  <span class="map-place-number">01</span>
-                  <span>
-                    <strong>KU Leuven</strong>
-                    <small>Leuven, Belgium</small>
-                  </span>
-                </button>
-
-                <button class="map-place" type="button" data-place="tecnico">
-                  <span class="map-place-number">02</span>
-                  <span>
-                    <strong>Instituto Superior Técnico</strong>
-                    <small>Lisbon, Portugal</small>
-                  </span>
-                </button>
-
-                <button class="map-place" type="button" data-place="ctu">
-                  <span class="map-place-number">03</span>
-                  <span>
-                    <strong>Czech Technical University</strong>
-                    <small>Prague, Czechia</small>
-                  </span>
-                </button>
-
-                <button class="map-place" type="button" data-place="wut">
-                  <span class="map-place-number">04</span>
-                  <span>
-                    <strong>Warsaw University of Technology</strong>
-                    <small>Warsaw, Poland</small>
-                  </span>
-                </button>
-
-                <button class="map-place" type="button" data-place="tuberlin">
-                  <span class="map-place-number">05</span>
-                  <span>
-                    <strong>TU Berlin</strong>
-                    <small>Berlin, Germany</small>
-                  </span>
-                </button>
-
-              </div>
-
-              <p class="map-hint">
-                <span>↗</span> Hover to identify a location.
-                Select it to jump to the relevant experience below.
-              </p>
-            </aside>
-
-          </div>
         </div>
-
       </div>
     </section>
 
-    <!-- =======================================
-         EXPERIENCE
-    ======================================== -->
+
+    <!-- EXPERIENCE -->
+
     <section class="section" id="experience">
       <div class="container">
 
-        <div class="section-top">
-          <h2 class="section-title">
-            Experience<span class="accent">.</span>
+        <div class="section-heading">
+          <div class="eyebrow">Experience & education</div>
+
+          <h2 class="display">
+            The things that got me here<span class="green">.</span>
           </h2>
 
-          <p class="section-intro">
-            Research, academic work and international experiences
-            that connect spatial planning with geospatial methods.
+          <p>
+            A mix of academic work, research, professional experience
+            and the opportunities that pushed me beyond what I already knew.
           </p>
         </div>
-
-        <p class="experience-note">
-          Rather than a conventional CV, this is a closer look
-          at the experiences that have influenced my interests
-          and the direction I want to take next.
-        </p>
 
         <div class="experience-list">
 
-          <!-- KU LEUVEN -->
-          <article class="experience-item" id="experience-kuleuven">
-            <div class="experience-label">
-              <span class="type">Research internship</span>
-              <span class="country">Belgium</span>
+          <article class="experience-item" id="ku-leuven">
+            <div class="experience-meta">
+              <strong>Research internship</strong>
+              KU Leuven<br>
+              Leuven, Belgium
             </div>
 
             <div class="experience-content">
-              <h3>Exploring 3D reconstruction workflows</h3>
-              <div class="experience-place">
-                KU Leuven · Geomatics Research Group
+              <h3>Exploring 3D reconstruction methods</h3>
+
+              <div class="institution">
+                Geomatics Research Group
               </div>
 
               <p>
-                During my research internship, I explored and compared
-                different 3D reconstruction approaches, working with
-                COLMAP, GLOMAP, GlueMap and VGGT. I examined differences
-                between workflows, reconstruction accuracy and
-                resulting point-cloud outputs.
+                During my research internship, I explored workflows for
+                3D reconstruction and compared approaches involving COLMAP,
+                GLOMAP, GlueMap and VGGT. My work focused on understanding
+                the differences between methods, examining reconstruction
+                accuracy and comparing point-cloud outputs.
               </p>
 
               <p>
-                The experience helped me understand how alternative
-                methods can produce different representations of a
-                scene, and how these outputs can be inspected and
-                compared. It also strengthened my interest in
-                geospatial research beyond conventional planning tools.
+                The experience introduced me to new questions around
+                3D reconstruction, spatial representation and the
+                possibilities of working with reality-based data.
               </p>
 
-              <div class="tag-list">
-                <span>3D reconstruction</span>
-                <span>Point clouds</span>
-                <span>CloudCompare</span>
-                <span>COLMAP</span>
-                <span>GLOMAP</span>
+              <div class="tag-row">
+                <span class="tag">3D reconstruction</span>
+                <span class="tag">Point clouds</span>
+                <span class="tag">Geomatics</span>
+                <span class="tag">Research</span>
+              </div>
+            </div>
+          </article>
+
+
+          <article class="experience-item" id="warsaw">
+            <div class="experience-meta">
+              <strong>Undergraduate degree</strong>
+              Warsaw University of Technology<br>
+              Warsaw, Poland
+            </div>
+
+            <div class="experience-content">
+              <h3>From spatial planning to City Information Modeling</h3>
+
+              <div class="institution">
+                BEng Spatial Planning · GPA 4.78/5.00
               </div>
 
               <p>
-                <a href="#project-reconstruction" class="arrow-link">
-                  See related project <span>↗</span>
-                </a>
+                My undergraduate studies gave me a foundation in spatial
+                planning and urban analysis. My bachelor's thesis developed
+                my interest in the connection between digital city models
+                and planning practice through a systematic literature
+                review of City Information Modeling in Spatial Planning.
+              </p>
+
+              <p>
+                It was an important step in connecting my planning
+                background with questions about spatial data, digital
+                representations and computational approaches.
+              </p>
+
+              <div class="tag-row">
+                <span class="tag">Spatial planning</span>
+                <span class="tag">City Information Modeling</span>
+                <span class="tag">Literature review</span>
+              </div>
+            </div>
+          </article>
+
+
+          <article class="experience-item" id="tu-berlin">
+            <div class="experience-meta">
+              <strong>Academic exchange</strong>
+              TU Berlin<br>
+              Berlin, Germany
+            </div>
+
+            <div class="experience-content">
+              <h3>Learning in a different academic environment</h3>
+
+              <p>
+                An international academic experience that broadened my
+                perspective on urban and spatial questions. I value these
+                exchanges as opportunities to encounter new approaches,
+                meet people working on different problems and see familiar
+                subjects from another perspective.
               </p>
             </div>
           </article>
 
-          <!-- WUT -->
-          <article class="experience-item" id="experience-wut">
-            <div class="experience-label">
-              <span class="type">Bachelor's degree</span>
-              <span class="country">Poland</span>
+
+          <article class="experience-item" id="lisbon">
+            <div class="experience-meta">
+              <strong>Academic exchange</strong>
+              Instituto Superior Técnico<br>
+              Lisbon, Portugal
             </div>
 
             <div class="experience-content">
-              <h3>Spatial planning and City Information Modeling</h3>
-              <div class="experience-place">
-                Warsaw University of Technology
-              </div>
+              <h3>Instituto Superior Técnico</h3>
 
               <p>
-                My studies in Spatial Planning gave me a foundation
-                in urban development, spatial analysis and the
-                planning of the built environment. Alongside this,
-                I developed an interest in digital approaches to
-                representing cities and organising spatial information.
-              </p>
-
-              <p>
-                My bachelor's thesis was a systematic literature
-                review of City Information Modeling in Spatial
-                Planning. It brought together my planning background
-                and my interest in how digital city models can
-                contribute to spatial planning practice and research.
-              </p>
-
-              <div class="tag-list">
-                <span>Spatial planning</span>
-                <span>City Information Modeling</span>
-                <span>Research</span>
-                <span>Literature review</span>
-              </div>
-
-              <p>
-                <a href="#project-cim" class="arrow-link">
-                  See related project <span>↗</span>
-                </a>
+                Part of my wider international academic experience,
+                contributing to my interest in learning across
+                institutions and disciplines.
               </p>
             </div>
           </article>
 
-          <!-- TU BERLIN -->
-          <article class="experience-item" id="experience-tuberlin">
-            <div class="experience-label">
-              <span class="type">Academic exchange</span>
-              <span class="country">Germany</span>
+
+          <article class="experience-item" id="prague">
+            <div class="experience-meta">
+              <strong>Academic exchange</strong>
+              Czech Technical University<br>
+              Prague, Czechia
             </div>
 
             <div class="experience-content">
-              <h3>Learning in an international academic environment</h3>
-              <div class="experience-place">TU Berlin · Berlin</div>
+              <h3>Czech Technical University</h3>
 
               <p>
-                My academic experience in Berlin forms part of my
-                broader international learning path. This entry can
-                be developed further with the exact exchange
-                programme, courses and activities completed there.
+                Another opportunity to engage with a different academic
+                environment and broaden my perspective beyond my home
+                university.
               </p>
             </div>
           </article>
 
-          <!-- SHORT EXCHANGES -->
-          <article class="experience-item" id="experience-exchanges">
-            <div class="experience-label">
-              <span class="type">Short exchanges</span>
-              <span class="country">International</span>
+
+          <article class="experience-item">
+            <div class="experience-meta">
+              <strong>Professional experience</strong>
+              Urban design & BIM
             </div>
 
             <div class="experience-content">
-              <h3>Different places, different perspectives</h3>
+              <h3>Connecting spatial thinking with practice</h3>
 
               <p>
-                Through short academic exchanges and international
-                programmes, I have experienced different university
-                environments and approaches to learning. These
-                experiences complement my studies and research
-                without being presented as separate degrees or
-                long-term research positions.
+                My experience as an Urban Designer Assistant and BIM Junior
+                Specialist helped me explore spatial problems from both
+                the planning and building perspectives. Together, these
+                roles strengthened my interest in how digital information
+                can support a more integrated understanding of the
+                built environment.
               </p>
 
-              <div class="exchange-grid">
-
-                <div class="exchange-card" id="experience-tecnico">
-                  <span class="number">01 / PORTUGAL</span>
-                  <h4>Instituto Superior Técnico</h4>
-                  <p>Lisbon · Academic exchange</p>
-                </div>
-
-                <div class="exchange-card" id="experience-ctu">
-                  <span class="number">02 / CZECHIA</span>
-                  <h4>Czech Technical University</h4>
-                  <p>Prague · Academic exchange</p>
-                </div>
-
-                <div class="exchange-card" id="experience-athens">
-                  <span class="number">03 / EUROPE</span>
-                  <h4>ATHENS &amp; ENHANCE</h4>
-                  <p>Short programmes and university exchanges</p>
-                </div>
-
+              <div class="tag-row">
+                <span class="tag">Urban design</span>
+                <span class="tag">BIM</span>
+                <span class="tag">Digital workflows</span>
               </div>
+            </div>
+          </article>
+
+
+          <article class="experience-item">
+            <div class="experience-meta">
+              <strong>Research & outreach</strong>
+              Student research association
+            </div>
+
+            <div class="experience-content">
+              <h3>Research is also about sharing ideas</h3>
+
+              <p>
+                Through research association activities, scientific
+                projects, six conference presentations and workshops
+                for children focused on urbanism and ecological paths,
+                I have explored different ways to communicate ideas
+                and make spatial questions accessible to others.
+              </p>
+
+              <p>
+                I have also taken part in ATHENS Programme and ENHANCE
+                exchange activities. A manuscript for Geospatial Week
+                2027 is in preparation.
+              </p>
             </div>
           </article>
 
@@ -1987,490 +1693,382 @@ nav,
       </div>
     </section>
 
-    <!-- =======================================
-         PROJECTS
-    ======================================== -->
+
+    <!-- PROJECTS: EACH PROJECT OPENS A DIFFERENT HTML PAGE -->
+
     <section class="section" id="projects">
       <div class="container">
 
-        <div class="section-top">
-          <h2 class="section-title">
-            Selected <span class="accent">work.</span>
-          </h2>
+        <div class="projects-topline">
+          <div class="section-heading">
+            <div class="eyebrow">Selected work</div>
 
-          <p class="section-intro">
-            A collection of research and technical projects,
-            with the question, the method and the outcome
-            at the centre.
+            <h2 class="display">
+              Things I've looked into<span class="green">.</span>
+            </h2>
+
+            <p>
+              Research, experiments and projects that reflect the
+              questions I'm interested in. Each project will have
+              its own page with its methods, data, findings and limitations.
+            </p>
+          </div>
+
+          <p>
+            Quality over quantity. I'd rather explain one project
+            properly than fill a portfolio with work that says very little.
           </p>
         </div>
 
-        <p class="projects-note">
-          The aim is depth, not volume: a small collection of
-          projects with clear methods, visual evidence and honest
-          discussion of results and limitations.
-        </p>
 
-        <div class="project-grid">
+        <div class="project-list">
 
-          <!-- CIM -->
-          <article class="project-card" id="project-cim">
-            <div class="project-visual">
-              <img
-                src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=1100&q=85"
-                alt="Architectural forms in the built environment"
-                loading="lazy"
-              >
+          <!-- Project 01: create cim-thesis.html later -->
 
-              <div class="project-visual-label">
-                <span>Research / Spatial planning</span>
-                <span>01</span>
-              </div>
-            </div>
+          <a class="project" href="cim-thesis.html">
+            <span class="project-number">01 /</span>
 
-            <div class="project-content">
-              <span class="project-type">Bachelor's thesis</span>
-
-              <h3>City Information Modeling in Spatial Planning</h3>
+            <div class="project-main">
+              <h3>City Information Modeling & Spatial Planning</h3>
 
               <p>
-                A systematic literature review examining how City
-                Information Modeling is discussed in spatial planning,
-                and what digital city models may contribute to
-                planning research and practice.
+                A systematic literature review exploring how City
+                Information Modeling is discussed and applied in
+                spatial planning.
               </p>
 
-              <div class="project-bottom">
-                <span>Research synthesis</span>
-                <a href="#experience-wut">Background ↗</a>
+              <div class="project-type">
+                Bachelor's thesis · Literature review
               </div>
             </div>
-          </article>
 
-          <!-- 3D RECONSTRUCTION -->
-          <article class="project-card" id="project-reconstruction">
-            <div class="project-visual">
+            <div class="project-image">
               <img
-                src="https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=1100&q=85"
+                src="https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?auto=format&fit=crop&w=800&q=80"
+                alt="Urban landscape"
+                loading="lazy"
+              >
+            </div>
+
+            <span class="project-arrow">↗</span>
+          </a>
+
+
+          <!-- Project 02: create 3d-reconstruction.html later -->
+
+          <a class="project" href="3d-reconstruction.html">
+            <span class="project-number">02 /</span>
+
+            <div class="project-main">
+              <h3>Comparing 3D Reconstruction Workflows</h3>
+
+              <p>
+                Exploring reconstruction approaches, point-cloud outputs
+                and accuracy during my geomatics research internship.
+              </p>
+
+              <div class="project-type">
+                Research internship · 3D data
+              </div>
+            </div>
+
+            <div class="project-image">
+              <img
+                src="https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=800&q=80"
                 alt="Geometric architectural forms"
                 loading="lazy"
               >
-
-              <div class="project-visual-label">
-                <span>Geospatial research / 3D</span>
-                <span>02</span>
-              </div>
             </div>
 
-            <div class="project-content">
-              <span class="project-type">KU Leuven internship</span>
+            <span class="project-arrow">↗</span>
+          </a>
 
-              <h3>Comparing 3D reconstruction workflows</h3>
+
+          <!-- Project 03: create geospatial-analysis.html later -->
+
+          <a class="project" href="geospatial-analysis.html">
+            <span class="project-number">03 /</span>
+
+            <div class="project-main">
+              <h3>Geospatial Analysis with Open Data</h3>
 
               <p>
-                An exploration of reconstruction approaches,
-                comparing workflows and examining accuracy and
-                point-cloud outputs. The case study will document
-                the data, workflow, evaluation criteria and findings.
+                A space for a reproducible GIS project using open
+                geospatial data, Python and spatial analysis.
               </p>
 
-              <div class="project-bottom">
-                <span>3D data &amp; point clouds</span>
-                <a href="#experience-kuleuven">Background ↗</a>
+              <div class="project-type">
+                Independent project · In development
               </div>
             </div>
-          </article>
 
-          <!-- GIS PROJECT -->
-          <article class="project-card" id="project-gis">
-            <div class="project-visual">
+            <div class="project-image">
               <img
-                src="https://images.unsplash.com/photo-1524666041070-9fc4f6e4b3a7?auto=format&fit=crop&w=1100&q=85"
-                alt="Cartographic and geographic details"
+                src="https://images.unsplash.com/photo-1524666041070-9a87656c25bb?auto=format&fit=crop&w=800&q=80"
+                alt="Map and geographical information"
                 loading="lazy"
               >
-
-              <div class="project-visual-label">
-                <span>GIS / Spatial analysis</span>
-                <span>03</span>
-              </div>
             </div>
 
-            <div class="project-content">
-              <span class="project-type">Independent project</span>
+            <span class="project-arrow">↗</span>
+          </a>
 
-              <h3>Finding patterns in spatial data</h3>
+
+          <!-- Project 04: create point-cloud-study.html later -->
+
+          <a class="project" href="point-cloud-study.html">
+            <span class="project-number">04 /</span>
+
+            <div class="project-main">
+              <h3>Working with 3D Spatial Data</h3>
 
               <p>
-                Reserved for a reproducible GIS project built around
-                a specific question and open spatial data, with
-                documented processing, analysis, visualisation and
-                interpretation.
+                A future project focused on exploring point clouds,
+                3D representations and methods for interpreting
+                spatial information.
               </p>
 
-              <div class="project-bottom">
-                <span>Planned project</span>
-                <a href="#contact">More soon ↗</a>
+              <div class="project-type">
+                Independent project · Planned
               </div>
             </div>
-          </article>
 
-          <!-- DIGITAL ENVIRONMENTS -->
-          <article class="project-card" id="project-digital">
-            <div class="project-visual">
+            <div class="project-image">
               <img
-                src="https://images.unsplash.com/photo-1511818966892-d7d671e672a2?auto=format&fit=crop&w=1100&q=85"
-                alt="Digital design and architecture inspiration"
+                src="https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=800&q=80"
+                alt="Abstract spatial patterns"
                 loading="lazy"
               >
-
-              <div class="project-visual-label">
-                <span>BIM / CIM / Urban design</span>
-                <span>04</span>
-              </div>
             </div>
 
-            <div class="project-content">
-              <span class="project-type">Digital environments</span>
-
-              <h3>From building models to urban space</h3>
-
-              <p>
-                A selected project demonstrating how digital
-                representations can support design or spatial
-                planning, with an explanation of the workflow,
-                visual outputs and relevance to the wider urban context.
-              </p>
-
-              <div class="project-bottom">
-                <span>Case study to be added</span>
-                <a href="#experience-wut">Background ↗</a>
-              </div>
-            </div>
-          </article>
+            <span class="project-arrow">↗</span>
+          </a>
 
         </div>
+
+        <p class="project-footnote">
+          Independent projects will be added as they are completed and
+          documented. Planned work is clearly distinguished from completed work.
+        </p>
+
       </div>
     </section>
 
-    <!-- =======================================
-         CONTACT
-    ======================================== -->
-    <section class="section" id="contact">
-      <div class="container contact-layout">
+
+    <!-- PERSONALITY: STILL A PERSON, NOT JUST A CV -->
+
+    <section class="section personal-section">
+      <div class="container personal-grid">
 
         <div>
-          <p class="eyebrow">Looking ahead</p>
+          <div class="eyebrow">Beyond the technical side</div>
 
-          <h2>
-            More space<br>
-            to <span class="green">explore.</span>
+          <h2 class="display">
+            Curious by nature.<br>
+            <span class="green">A researcher in progress.</span>
           </h2>
+        </div>
 
-          <p class="description">
-            I am interested in further study and research at the
-            intersection of spatial planning, geospatial technologies
-            and 3D spatial data. If my work connects with yours,
-            I would be happy to get in touch.
+        <div class="personal-copy">
+          <p>
+            I don't want my interest in technical methods to make me
+            forget why I started looking at cities in the first place.
+            Places are not just geometries, datasets or models.
+            They are environments people experience, change and give meaning to.
+          </p>
+
+          <p>
+            That's why I like moving between different scales and ways
+            of thinking — from the broader questions of spatial planning
+            to the details of a point cloud, from reading research to
+            trying something out for myself.
+          </p>
+
+          <p>
+            I'm building my skills step by step, and I'm excited by how
+            much there still is to learn. For me, an academic path is
+            not about having every answer already. It's about finding
+            questions worth staying curious about.
           </p>
         </div>
 
-        <div class="contact-links">
-          <!-- Replace these placeholders with your own details. -->
+      </div>
+    </section>
 
-          <a href="mailto:YOUR-EMAIL@example.com">
-            <span>Email</span>
-            <span>↗</span>
-          </a>
 
-          <a
-            href="https://github.com/YOUR-USERNAME"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <span>GitHub</span>
-            <span>↗</span>
-          </a>
+    <!-- CONTACT -->
 
-          <a
-            href="https://www.linkedin.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <span>LinkedIn</span>
-            <span>↗</span>
-          </a>
+    <section class="section contact" id="contact">
+      <div class="container">
+
+        <div class="eyebrow">The next chapter</div>
+
+        <h2 class="display">
+          Good questions<br>
+          take you <span class="green">somewhere.</span>
+        </h2>
+
+        <div class="contact-bottom">
+          <p>
+            Interested in my work, have a research opportunity in mind,
+            or simply want to talk about geospatial things?
+            I'd be happy to hear from you.
+          </p>
+
+          <div class="contact-links">
+            <!-- Replace these placeholder links with your real details. -->
+
+            <a class="button button-primary"
+               href="mailto:YOUR-EMAIL@example.com">
+              Email me ↗
+            </a>
+
+            <a class="button button-secondary"
+               href="https://github.com/YOUR-USERNAME"
+               target="_blank"
+               rel="noopener noreferrer">
+              GitHub ↗
+            </a>
+
+            <a class="button button-secondary"
+               href="https://www.linkedin.com/in/YOUR-USERNAME/"
+               target="_blank"
+               rel="noopener noreferrer">
+              LinkedIn ↗
+            </a>
+          </div>
         </div>
-
       </div>
     </section>
 
   </main>
 
-  <footer>
+
+  <footer class="footer">
     <div class="container footer-inner">
-      <span>© <span id="year"></span> Your Name</span>
-      <span class="footer-mark">SPATIAL THINKING / OPEN ENDED</span>
+      <span>Made with curiosity, not a template.</span>
+      <span><strong>YOUR NAME</strong> · 2026</span>
     </div>
   </footer>
 
-  <!-- Leaflet -->
+
+  <!-- MAP INTERACTION -->
+
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
   <script>
-    document.getElementById("year").textContent =
-      new Date().getFullYear();
-
-    // -----------------------------------------
-    // ACADEMIC LOCATIONS
-    // -----------------------------------------
-
-    const locations = [
+    const places = [
       {
-        id: "kuleuven",
-        number: "01",
+        id: "ku-leuven",
         name: "KU Leuven",
         city: "Leuven, Belgium",
         lat: 50.8798,
-        lng: 4.7005,
-        target: "experience-kuleuven"
+        lon: 4.7005
       },
       {
-        id: "tecnico",
-        number: "02",
+        id: "warsaw",
+        name: "Warsaw University of Technology",
+        city: "Warsaw, Poland",
+        lat: 52.2200,
+        lon: 21.0100
+      },
+      {
+        id: "tu-berlin",
+        name: "TU Berlin",
+        city: "Berlin, Germany",
+        lat: 52.5125,
+        lon: 13.3269
+      },
+      {
+        id: "lisbon",
         name: "Instituto Superior Técnico",
         city: "Lisbon, Portugal",
         lat: 38.7369,
-        lng: -9.1386,
-        target: "experience-tecnico"
+        lon: -9.1386
       },
       {
-        id: "ctu",
-        number: "03",
+        id: "prague",
         name: "Czech Technical University",
         city: "Prague, Czechia",
-        lat: 50.0755,
-        lng: 14.4378,
-        target: "experience-ctu"
-      },
-      {
-        id: "wut",
-        number: "04",
-        name: "Warsaw University of Technology",
-        city: "Warsaw, Poland",
-        lat: 52.2297,
-        lng: 21.0122,
-        target: "experience-wut"
-      },
-      {
-        id: "tuberlin",
-        number: "05",
-        name: "TU Berlin",
-        city: "Berlin, Germany",
-        lat: 52.5200,
-        lng: 13.4050,
-        target: "experience-tuberlin"
+        lat: 50.1031,
+        lon: 14.3910
       }
     ];
 
-    const mapElement = document.getElementById("study-map");
-    let studyMap = null;
-    const markersById = {};
-
-    function scrollToExperience(location) {
-      const target = document.getElementById(location.target);
-
-      if (!target) return;
-
-      target.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
-
-      const experienceItem = target.classList.contains("experience-item")
-        ? target
-        : target.closest(".experience-item");
-
-      document.querySelectorAll(".experience-item").forEach(item => {
-        item.classList.remove("highlighted");
-      });
-
-      if (experienceItem) {
-        experienceItem.classList.add("highlighted");
-
-        window.setTimeout(() => {
-          experienceItem.classList.remove("highlighted");
-        }, 2400);
-      }
-    }
-
-    function selectLocation(location) {
-      document.querySelectorAll(".map-place").forEach(button => {
-        button.classList.toggle(
-          "active",
-          button.dataset.place === location.id
-        );
-      });
-
-      if (studyMap && markersById[location.id]) {
-        const marker = markersById[location.id];
-
-        studyMap.flyTo(
-          [location.lat, location.lng],
-          Math.max(studyMap.getZoom(), 5),
-          { duration: 0.7 }
-        );
-
-        marker.openTooltip();
-      }
-
-      scrollToExperience(location);
-    }
+    const mapElement = document.getElementById("experience-map");
 
     if (mapElement && window.L) {
-      studyMap = L.map("study-map", {
-        zoomControl: true,
-        scrollWheelZoom: false,
-        minZoom: 3,
-        maxZoom: 8
-      });
+      const map = L.map("experience-map", {
+        scrollWheelZoom: false
+      }).setView([51.1, 12.5], 4);
 
-      const europeBounds = L.latLngBounds(
-        [34, -12],
-        [72, 32]
-      );
+      L.tileLayer(
+        "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+        {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+          subdomains: "abcd",
+          maxZoom: 19
+        }
+      ).addTo(map);
 
-      studyMap.fitBounds(europeBounds, {
-        padding: [10, 10]
-      });
+      const markerStyle = {
+        radius: 7,
+        color: "#0f1821",
+        weight: 2,
+        fillColor: "#469758",
+        fillOpacity: 1
+      };
 
-      studyMap.setMaxBounds([
-        [29, -22],
-        [76, 42]
-      ]);
+      places.forEach((place) => {
+        const marker = L.circleMarker(
+          [place.lat, place.lon],
+          markerStyle
+        ).addTo(map);
 
-      // Draw real country borders without map tiles.
-      const countriesUrl =
-        "https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson";
-
-      fetch(countriesUrl)
-        .then(response => {
-          if (!response.ok) {
-            throw new Error("Country data request failed.");
-          }
-
-          return response.json();
-        })
-        .then(data => {
-          L.geoJSON(data, {
-            style: {
-              color: "#536c5d",
-              weight: 0.8,
-              opacity: 0.85,
-              fillColor: "#192b30",
-              fillOpacity: 0.55
-            },
-            interactive: false
-          }).addTo(studyMap);
-
-          // Keep the European view after drawing boundaries.
-          studyMap.fitBounds(europeBounds, {
-            padding: [10, 10]
-          });
-        })
-        .catch(error => {
-          console.error("Could not load country boundaries:", error);
-
-          mapElement.insertAdjacentHTML(
-            "beforeend",
-            '<p style="position:absolute;z-index:500;bottom:8px;left:8px;padding:8px;background:#0f1821;color:#b7c1c6;font-size:10px;">Country borders unavailable. Check your connection and refresh.</p>'
-          );
+        marker.bindTooltip(place.name, {
+          direction: "top",
+          offset: [0, -8]
         });
 
-      const markerIcon = L.divIcon({
-        className: "",
-        html: '<div class="study-marker"></div>',
-        iconSize: [14, 14],
-        iconAnchor: [7, 7]
-      });
-
-      locations.forEach(location => {
-        const marker = L.marker(
-          [location.lat, location.lng],
-          {
-            icon: markerIcon,
-            title: location.name,
-            keyboard: true
-          }
-        ).addTo(studyMap);
-
-        marker.bindTooltip(
-          `<strong>${location.name}</strong><br>${location.city}`,
-          {
-            direction: "top",
-            offset: [0, -7],
-            className: "study-tooltip"
-          }
+        marker.bindPopup(
+          "<strong>" + place.name + "</strong><br>" + place.city
         );
 
         marker.on("click", () => {
-          selectLocation(location);
-        });
+          const target = document.getElementById(place.id);
 
-        markersById[location.id] = marker;
-      });
-
-      // Map/list controls.
-      document.querySelectorAll(".map-place").forEach(button => {
-        button.addEventListener("click", () => {
-          const location = locations.find(
-            item => item.id === button.dataset.place
-          );
-
-          if (location) selectLocation(location);
-        });
-      });
-
-      // Leaflet needs a refresh after responsive layout changes.
-      window.setTimeout(() => {
-        studyMap.invalidateSize();
-      }, 300);
-
-    } else if (mapElement) {
-      mapElement.innerHTML =
-        '<p style="padding:20px;color:#b7c1c6;font-size:12px;">The map could not load. Check your internet connection.</p>';
-    }
-
-    // -----------------------------------------
-    // NAVIGATION STATE
-    // -----------------------------------------
-
-    const sections = document.querySelectorAll(
-      "#about, #experience, #projects, #contact"
-    );
-
-    const navLinks = document.querySelectorAll(".nav-links a");
-
-    if ("IntersectionObserver" in window) {
-      const observer = new IntersectionObserver(
-        entries => {
-          entries.forEach(entry => {
-            if (!entry.isIntersecting) return;
-
-            navLinks.forEach(link => {
-              const active =
-                link.getAttribute("href") === "#" + entry.target.id;
-
-              link.classList.toggle("active", active);
+          if (target) {
+            target.scrollIntoView({
+              behavior: "smooth",
+              block: "start"
             });
-          });
-        },
-        {
-          rootMargin: "-20% 0px -65% 0px"
-        }
-      );
+          }
+        });
+      });
 
-      sections.forEach(section => observer.observe(section));
+      document.querySelectorAll(".map-place").forEach((link) => {
+        link.addEventListener("click", (event) => {
+          const id = link.getAttribute("href").slice(1);
+          const place = places.find((item) => item.id === id);
+
+          if (!place) return;
+
+          event.preventDefault();
+
+          map.flyTo([place.lat, place.lon], 7, {
+            duration: 0.7
+          });
+
+          const target = document.getElementById(id);
+
+          if (target) {
+            target.scrollIntoView({
+              behavior: "smooth",
+              block: "start"
+            });
+          }
+        });
+      });
     }
   </script>
 
