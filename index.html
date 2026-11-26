@@ -19,7 +19,24 @@
 .side-gallery img,.internship-gallery img{display:block;width:100%;height:auto;max-height:420px;object-fit:contain;object-position:top center}
 .side-gallery figcaption,.internship-gallery figcaption{font-size:13px;color:var(--pink);margin-top:8px}
 .side-gallery .visual-slot,.internship-gallery .visual-slot{border:1px dashed #e2afea55;min-height:180px;overflow-wrap:anywhere}
-</style>
+.email-link {
+    display: block;
+    width: fit-content;
+    margin: 30px auto 0;
+    color: #E2AFEA;
+    font-size: clamp(18px, 2.5vw, 28px);
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+    border-bottom: 1px solid #E2AFEA;
+    padding-bottom: 5px;
+    transition: color 0.2s ease;
+}
+
+.email-link:hover {
+    color: #83D0D5;
+    border-color: #83D0D5;
+}</style>
 </head>
 <body>
 <header><nav class="wrap" aria-label="Main navigation"><a class="brand" href="#home">Julia Czapp</a><div class="navlinks"><div class="navitem"><a class="navlink" href="#education">ABOUT ME</a><div class="dropdown"><a href="#education">Education</a><a href="#association">Student association</a><a href="#experience">Experience</a></div></div><div class="navitem"><a class="navlink" href="#projects">PROJECTS</a><div class="dropdown"><a href="#cim">City Information Modeling</a><a href="#reconstruction">3D reconstruction</a><a href="#gis">Geospatial analysis</a></div></div><div class="navitem"><a class="navlink" href="#contact">CONTACT</a></div></div></nav></header>
@@ -35,7 +52,9 @@
 <div class="visual-slot">Internship photo 1<br>assets/images/internship-01.jpg</div><div class="visual-slot">Internship photo 2<br>assets/images/internship-02.jpg</div><div class="visual-slot">Internship photo 3<br>assets/images/internship-03.jpg</div>
 </div></article><article class="experience-row"><div><h3>Urban Designer Assistant</h3><p>Professional experience in urban design.</p></div><div class="side-gallery"><!-- Add more figure elements here as needed. Example: <figure><img src="assets/images/photo.jpg" alt="Description" loading="lazy"><figcaption>Optional caption</figcaption></figure> --><div class="visual-slot">Add work photograph or logo</div></div></article><article class="experience-row"><div><h3>BIM Junior Specialist</h3><p>Professional experience with Building Information Modeling.</p></div><div class="side-gallery"><!-- Add more figure elements here as needed. Example: <figure><img src="assets/images/photo.jpg" alt="Description" loading="lazy"><figcaption>Optional caption</figcaption></figure> --><div class="visual-slot">Add BIM photograph or logo</div></div></article></section>
 <section class="section" id="projects"><h2>Projects</h2><article class="project-row" id="cim"><div><h3>City Information Modeling in Spatial Planning</h3><p>My bachelor's thesis: a systematic literature review investigating City Information Modeling in the context of spatial planning.</p><span class="pending">Detailed project page forthcoming</span><!-- <a class="project-link" href="projects/cim.html">Explore project →</a> --></div><div class="side-gallery"><!-- Add more figure elements here as needed. Example: <figure><img src="assets/images/photo.jpg" alt="Description" loading="lazy"><figcaption>Optional caption</figcaption></figure> --><div class="visual-slot">Add thesis visual</div></div></article><article class="project-row" id="reconstruction"><div><h3>3D reconstruction workflows</h3><p>Exploration of reconstruction methods and point-cloud outputs during my research internship at KU Leuven in Ghent.</p><span class="pending">Detailed project page forthcoming</span><!-- <a class="project-link" href="projects/reconstruction.html">Explore project →</a> --></div><div class="side-gallery"><!-- Add more figure elements here as needed. Example: <figure><img src="assets/images/photo.jpg" alt="Description" loading="lazy"><figcaption>Optional caption</figcaption></figure> --><div class="visual-slot">Add point-cloud visual</div></div></article><article class="project-row" id="gis"><div><h3>Geospatial analysis</h3><p>Planned independent project using open spatial data.</p><span class="pending">In planning</span><!-- <a class="project-link" href="projects/gis.html">Explore project →</a> --></div><div class="side-gallery"><!-- Add more figure elements here as needed. Example: <figure><img src="assets/images/photo.jpg" alt="Description" loading="lazy"><figcaption>Optional caption</figcaption></figure> --><div class="visual-slot">Add project map when available</div></div></article></section>
-<section class="section" id="contact"><h2>Contact</h2><p>I'm interested in collaboration, research opportunities and conversations about geospatial technologies and the built environment.</p><!-- Add your actual email and profile links here. --><p>Email and professional profile links to be added.</p></section>
+<section class="section" id="contact"><h2>Contact</h2><p>I'm interested in collaboration, research opportunities and conversations about geospatial technologies and the built environment.<a href="mailto:julia.czapp@gmail.com" class="email-link">
+    julia.czapp@gmail.com
+</a></section>
 </main><footer>© Julia Czapp</footer>
 
 <script>
