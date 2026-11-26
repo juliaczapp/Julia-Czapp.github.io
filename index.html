@@ -36,7 +36,21 @@
 .email-link:hover {
     color: #83D0D5;
     border-color: #83D0D5;
-}</style>
+}
+html {
+    scroll-padding-top: 0;
+}
+
+section[id],
+section [id] {
+    scroll-margin-top: 0;
+}
+
+section[id] > h2:first-child,
+section[id] > .section-title:first-child {
+    scroll-margin-top: 150px;
+}
+</style>
 </head>
 <body>
 <header><nav class="wrap" aria-label="Main navigation"><a class="brand" href="#home">Julia Czapp</a><div class="navlinks"><div class="navitem"><a class="navlink" href="#education">ABOUT ME</a><div class="dropdown"><a href="#education">Education</a><a href="#association">Student association</a><a href="#experience">Experience</a></div></div><div class="navitem"><a class="navlink" href="#projects">PROJECTS</a><div class="dropdown"><a href="#cim">City Information Modeling</a><a href="#reconstruction">3D reconstruction</a><a href="#gis">Geospatial analysis</a></div></div><div class="navitem"><a class="navlink" href="#contact">CONTACT</a></div></div></nav></header>
@@ -61,4 +75,30 @@
 document.querySelectorAll('.photo-toggle').forEach(button=>button.addEventListener('click',()=>button.setAttribute('aria-expanded',String(button.getAttribute('aria-expanded')!=='true'))));
 
 const groups=[['education','association','experience'],['projects','cim','reconstruction','gis'],['contact']];const links=document.querySelectorAll('.navlink');function updateNav(){let active=-1;for(const [i,ids] of groups.entries()){if(ids.some(id=>document.getElementById(id).getBoundingClientRect().top<=150))active=i;}links.forEach((link,i)=>link.classList.toggle('active',i===active));}window.addEventListener('scroll',updateNav,{passive:true});updateNav();
-</script></body></html>
+</script><script>
+document.querySelectorAll('nav a[href^="#"]').forEach(link => {
+    link.addEventListener('click', function(e) {
+        const target = document.getElementById(
+            this.getAttribute('href').substring(1)
+        );
+
+        if (!target) return;
+
+        e.preventDefault();
+
+        const heading = target.matches('h2, h3')
+            ? target
+            : target.querySelector('h2, h3') || target;
+
+        const header = document.querySelector('header');
+        const offset = (header ? header.offsetHeight : 120) + 30;
+
+        window.scrollTo({
+            top: heading.getBoundingClientRect().top
+                 + window.scrollY - offset,
+            behavior: 'smooth'
+        });
+    });
+});
+</script>
+</body></html>
